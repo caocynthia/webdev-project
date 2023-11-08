@@ -6,14 +6,12 @@ import Profile from "./Profile";
 
 function App() {
   return (
-    <div className="App">
+    <div className="app">
       <HashRouter>
-        <div>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/profile" element={<Profile />} />
-          </Routes>
-        </div>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/profile" element={<Profile />} />
+        </Routes>
       </HashRouter>
     </div>
   );
