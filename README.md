@@ -1,7 +1,7 @@
 # webdev-project
 CS4550 Web Development Final Project
 
-**Team:**
+**Team:** \
 Teresa Liang\
 Mathena Chan\
 Cynthia Cao
