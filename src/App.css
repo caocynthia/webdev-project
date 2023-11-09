@@ -1,3 +1,21 @@
+:root {
+  /* grays */
+  --neutral50: #F5F5F5;
+  --neutral100: #EEEEEE;
+  --neutral200: #E4E4E4;
+  --neutral300: #D0D0D0;
+  --neutral400: #9F9F9F;
+  --neutral500: #707070;
+
+  /* accent color */
+  --accent50: #FAEBEE;
+  --accent100: #F5D6DE;
+  --accent200: #ECAEBD;
+  --accent300: #E2859B;
+  --accent400: #D95D7A;
+  --accent500: #CF3459;
+}
+
 .navbar {
   background: white;
   padding: 0 64px 0 64px !important;
@@ -6,11 +24,16 @@
   justify-content: center;
 }
 
+.navbar a {
+  color: black;
+  text-decoration: none;
+}
+
 .page-padding {
   padding: 40px 64px 0 64px;
 }
 
 .app {
-  background-color: #F5F5F5;
+  background-color: var(--neutral50);
   height: 100vh;
 }
