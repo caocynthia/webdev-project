@@ -4,8 +4,13 @@ function Profile() {
   return (
     <>
       <NavBar />
-      <h1>hi</h1>
-      <p>this is the profile page</p>
+      <div className="page-padding">
+        <i className="profile-pic bi bi-person-circle"></i>
+        <div className="d-flex gap-2 align-items-center">
+          <label>Name</label>
+          <input value="john doe" />
+        </div>
+      </div>
     </>
   );
 }

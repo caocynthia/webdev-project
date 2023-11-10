@@ -37,3 +37,11 @@
   background-color: var(--neutral50);
   height: 100vh;
 }
+
+#search-addon {
+  background-color: transparent;
+}
+
+.profile-pic {
+  font-size: 40px;
+}
