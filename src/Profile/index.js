@@ -7,7 +7,7 @@ function Profile() {
       <div className="page-padding">
         <i className="profile-pic bi bi-person-circle"></i>
         <div className="row">
-          <div className="col-2 d-flex flex-column gap-2">
+          <div className="col-3 d-flex flex-column gap-2">
             <h5>Name</h5>
             <p>bio text here lalala</p>
           </div>
