@@ -45,3 +45,9 @@
 .profile-pic {
   font-size: 40px;
 }
+
+.thing {
+  background: white;
+  border-radius: 8px;
+  padding: 16px 20px 16px 20px;
+}
