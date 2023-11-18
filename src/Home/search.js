@@ -6,11 +6,11 @@ import Results from "../Results";
 function SearchMovie() {
   const [searchTerm, setSearchTerm] = useState("");
   const [results, setResults] = useState(null);
-  const [loading, setLoading] = useState(false);
 
   const search = async () => {
     const response = await fullTextSearch(searchTerm);
-    setResults(response);
+    console.log(response.Search[1]);
+    setResults(response.Search);
   };
 
   return (
@@ -22,11 +22,12 @@ function SearchMovie() {
         className="form-control"
         onChange={(e) => setSearchTerm(e.target.value)}
       />
+
       <button className="btn btn-primary" onClick={search}>
         Search
       </button>
 
-      <Results />
+      <Results props={results} />
     </div>
   );
 }
