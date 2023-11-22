@@ -11,3 +11,21 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.movieCards {
+  height: 450px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.searchMovieTitle {
+  font-size: 20px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.card {
+  
+}
