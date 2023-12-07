@@ -1,9 +1,7 @@
-import SearchMovie from "./search";
-
 function Home() {
   return (
     <>
-      <SearchMovie />
+      <h1>Popular Movies</h1>
     </>
   );
 }

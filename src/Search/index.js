@@ -25,7 +25,7 @@ function SearchMovie() {
   return (
     <div>
       <h1>Movie Search</h1>
-      <div className="d-flex align-items-center">
+      <div className="d-flex align-items-center gap-2">
         <input
           type="text"
           value={searchTerm}
@@ -39,7 +39,7 @@ function SearchMovie() {
         </button>
       </div>
       <div className="row g-0 pt-4 gap-4">
-        {errorMessage && <div className="mb-2 mt-2">{errorMessage}</div>}
+        {errorMessage && <div className="mb-4">{errorMessage}</div>}
 
         {results.map((movie) => (
           <div key={movie.imdbID} className="card">
