@@ -6,7 +6,7 @@ function NavBar() {
       <div className="d-flex gap-4">
         <Link to={`/`}>Home</Link>
       </div>
-      <Link to={`/profile`}>Profile</Link>
+      <Link to={`/Profile`}>Profile</Link>
     </div>
   );
 }
