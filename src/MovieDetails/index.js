@@ -1,7 +1,8 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import * as client from "../api/movie-service";
+
 function MovieItem() {
   const { id: movieID } = useParams();
   const [movie, setMovie] = useState(null);
@@ -15,8 +16,14 @@ function MovieItem() {
     fetchMovie();
   }, []);
 
+  const navigate = useNavigate();
+
   return (
-    <div>
+    <div className="">
+      <button className="btn btn-primary mb-4" onClick={() => navigate(-1)}>
+        ← Back to search
+      </button>
+
       {console.log(movie)}
       {movie && (
         <div className="row">
