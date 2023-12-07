@@ -34,8 +34,8 @@
 }
 
 .app {
+  min-height: 100vh;
   background-color: var(--neutral50);
-  height: 100vh;
 }
 
 #search-addon {

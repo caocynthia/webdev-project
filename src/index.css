@@ -13,9 +13,8 @@ code {
 }
 
 .movieCards {
-  height: 450px;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  max-width: 100%;
+  padding-top: 20px;
 }
 
 .searchMovieTitle {
@@ -24,8 +23,18 @@ code {
   white-space: nowrap;
   text-overflow: ellipsis;
   max-width: 100%;
+  color: black;
 }
 
 .link {
   text-decoration: none;
+}
+
+.card {
+  width: 300px;
+  padding: 20px;
+}
+
+.card-subheading {
+  color: var(--neutral400);
 }

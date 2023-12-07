@@ -4,6 +4,7 @@ import { Routes, Route } from "react-router";
 import Home from "./Home";
 import Profile from "./Profile";
 import MovieItem from "./MovieDetails";
+
 function App() {
   return (
     <div className="app">

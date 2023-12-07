@@ -1,6 +1,5 @@
 import NavBar from "../Navbar";
 import SearchMovie from "./search";
-import MovieItem from "../MovieDetails";
 
 function Home() {
   return (
