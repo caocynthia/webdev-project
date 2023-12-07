@@ -4,11 +4,22 @@ import { Link } from "react-router-dom";
 
 function SearchMovie() {
   const [searchTerm, setSearchTerm] = useState("");
-  const [results, setResults] = useState();
+  const [results, setResults] = useState([]);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const search = async () => {
     const response = await fullTextSearch(searchTerm);
-    setResults(response);
+
+    if (response.Search === undefined) {
+      if (searchTerm === "") {
+        setErrorMessage("Please type something before searching!");
+      } else {
+        setErrorMessage('No movies found for "' + searchTerm + '" :(');
+      }
+    } else {
+      setResults(response.Search);
+      setErrorMessage(null);
+    }
   };
 
   return (
@@ -27,20 +38,23 @@ function SearchMovie() {
           Search
         </button>
       </div>
-      <div className="row">
-        {results &&
-          results.Search.map((movie) => (
-            <div key={movie.imdbID} className="card col-2">
-              <Link className="link" to={`/MovieItem/${movie.imdbID}`}>
-                {console.log(movie.Title)}
-                {console.log(movie)}
-                <h1 className="searchMovieTitle">{movie.Title}</h1>
-                <div>Type: {movie.Type}</div>
-                <div>Year: {movie.Year}</div>
-                <img className="movieCards" src={movie.Poster} alt={movie.Title}></img>
-              </Link>
-            </div>
-          ))}
+      <div className="row g-0 pt-4 gap-4">
+        {errorMessage && <div className="mb-2 mt-2">{errorMessage}</div>}
+
+        {results.map((movie) => (
+          <div key={movie.imdbID} className="card">
+            <Link className="link" to={`/MovieItem/${movie.imdbID}`}>
+              <h1 className="searchMovieTitle">{movie.Title}</h1>
+              <div className="card-subheading">Type: {movie.Type}</div>
+              <div className="card-subheading">Year: {movie.Year}</div>
+              <img
+                className="movieCards"
+                src={movie.Poster}
+                alt={movie.Title}
+              ></img>
+            </Link>
+          </div>
+        ))}
       </div>
     </div>
   );
