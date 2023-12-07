@@ -9,7 +9,7 @@ export const fullTextSearch = async (text) => {
   return response.data;
 };
 
-export const movieItem = async (movieID) => {
+export const findMovieById = async (movieID) => {
   const response = await axios.get(`${OMDB_API}i=${movieID}`);
   return response.data;
 };

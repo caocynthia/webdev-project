@@ -26,6 +26,6 @@ code {
   max-width: 100%;
 }
 
-.card {
-  
+.link {
+  text-decoration: none;
 }
