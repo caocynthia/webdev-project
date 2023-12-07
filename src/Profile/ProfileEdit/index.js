@@ -1,9 +1,6 @@
-import NavBar from "../Navbar";
-
 function ProfileEdit() {
   return (
     <>
-      <NavBar />
       <div className="page-padding">
         <i className="profile-pic bi bi-person-circle"></i>
         <div className="d-flex gap-2 align-items-center">

@@ -1,10 +1,7 @@
-import NavBar from "../Navbar";
-
 function Profile() {
   return (
     <>
-      <NavBar />
-      <div className="page-padding">
+      <div>
         <i className="profile-pic bi bi-person-circle"></i>
         <div className="row">
           <div className="col-3 d-flex flex-column gap-2">
