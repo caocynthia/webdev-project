@@ -4,6 +4,7 @@ import Profile from "./Profile";
 import MovieItem from "./MovieDetails";
 import NavBar from "./Navbar";
 import SearchMovie from "./Search";
+import LoginPage from "./LoginPage";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/Search" element={<SearchMovie />} />
           <Route path="/Profile" element={<Profile />} />
+          <Route path="/Login" element={<LoginPage />} />
           <Route path="/MovieItem/:id" element={<MovieItem />} />
         </Routes>
       </div>
