@@ -7,6 +7,7 @@ function ProfileEdit() {
           <label>Name</label>
           <input value="john doe" />
         </div>
+        <input type="email" value="john.doe@gmail.com"/>
       </div>
     </>
   );
