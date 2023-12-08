@@ -7,6 +7,8 @@ function ProfileEdit() {
           <label>Name</label>
           <input value="john doe" />
         </div>
+
+        <div className="d-flex flex-column align-items gap-4"></div>
       </div>
     </>
   );
