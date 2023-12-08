@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import UserTable from "../users/table";
 function adminProfile() {
   return (
     <>
@@ -11,17 +12,18 @@ function adminProfile() {
             <Link to="ProfileEdit" className="btn btn-primary w-50">Edit Profile</Link>
           </div>
           <div className="col-8 d-flex flex-column gap-2">
-            <h5>Likes</h5>
+            {/* <h5>Likes</h5>
             <div className="thing">item here</div>
             <div className="thing">item here</div>
 
             <div className="col-8 d-flex flex-column gap-2 mt-5">
-            <h5>My Reviews</h5>
-            <div className="thing">item here</div>
-            <div className="thing">item here</div>
+              <h5>My Reviews</h5>
+              <div className="thing">item here</div>
+              <div className="thing">item here</div>
+            </div> */}
+            <UserTable />
           </div>
-          </div>
-          
+
         </div>
       </div>
     </>
