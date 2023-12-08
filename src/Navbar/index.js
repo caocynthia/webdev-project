@@ -7,7 +7,9 @@ function NavBar() {
         <Link to={`/`}>Home</Link>
         <Link to={`/Search`}>Search</Link>
       </div>
-      <Link to={`/Profile`}>Profile</Link>
+      <div className="d-flex gap-4">
+        <Link to={`/Login`}>Sign in / Sign up</Link>
+      </div>
     </div>
   );
 }
