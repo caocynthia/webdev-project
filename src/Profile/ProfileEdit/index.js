@@ -1,5 +1,11 @@
 import { Link } from "react-router-dom";
-function ProfileEdit() {
+import * as client from "../../users/client";
+
+function ProfileEdit(account) {
+  const save = async () => {
+    await client.updateUser(account);
+  };
+
   return (
     <>
       <div className="page-padding">
@@ -9,14 +15,24 @@ function ProfileEdit() {
           <input className="form-control w-25" value="john doe" />
         </div>
         <div className="d-flex gap-2 align-items-center my-3">
-        <label>Email</label>
-        <input className="form-control" type="email" value="john.doe@gmail.com"/>
+          <label>Email</label>
+          <input
+            className="form-control"
+            type="email"
+            value="john.doe@gmail.com"
+          />
         </div>
         <div className="d-flex gap-2 align-items-center my-3">
-        <label>Password</label>
-        <input className="form-control" type="password" value="doeremi"/>
+          <label>Password</label>
+          <input className="form-control" type="password" value="doeremi" />
         </div>
-        <Link to="../Profile" className="btn btn-primary">Save Changes</Link>
+        <Link
+          to="../Profile"
+          className="btn btn-primary"
+          onClick={() => save()}
+        >
+          Save Changes
+        </Link>
       </div>
     </>
   );

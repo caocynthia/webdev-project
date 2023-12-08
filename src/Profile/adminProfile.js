@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-function adminProfile() {
+function AdminProfile() {
   return (
     <>
       <div className="page-padding">
@@ -8,7 +8,9 @@ function adminProfile() {
           <div className="col-3 d-flex flex-column gap-2">
             <h5>Admin Name</h5>
             <p>bio text here lalala</p>
-            <Link to="ProfileEdit" className="btn btn-primary w-50">Edit Profile</Link>
+            <Link to="ProfileEdit" className="btn btn-primary w-50">
+              Edit Profile
+            </Link>
           </div>
           <div className="col-8 d-flex flex-column gap-2">
             <h5>Likes</h5>
@@ -16,15 +18,14 @@ function adminProfile() {
             <div className="thing">item here</div>
 
             <div className="col-8 d-flex flex-column gap-2 mt-5">
-            <h5>My Reviews</h5>
-            <div className="thing">item here</div>
-            <div className="thing">item here</div>
+              <h5>My Reviews</h5>
+              <div className="thing">item here</div>
+              <div className="thing">item here</div>
+            </div>
           </div>
-          </div>
-          
         </div>
       </div>
     </>
   );
 }
-export default adminProfile;
+export default AdminProfile;

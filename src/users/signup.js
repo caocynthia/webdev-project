@@ -16,7 +16,7 @@ function Signup() {
       await client.signup(credentials);
       navigate("/Profile");
     } catch (err) {
-      setError(err.response.data.message);
+      setError(err.toString());
     }
   };
 
