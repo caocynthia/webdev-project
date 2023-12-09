@@ -6,6 +6,7 @@ import MovieItem from "./MovieDetails";
 import NavBar from "./Navbar";
 import SearchMovie from "./Search";
 import LoginPage from "./LoginPage";
+import UserTable from "./users/table";
 
 function App() {
   return (
@@ -18,7 +19,8 @@ function App() {
           <Route path="/Profile" element={<Profile />} />
           <Route path="/Profile/:id" element={<Profile />} />
           <Route path="/Login" element={<LoginPage />} />
-          <Route path="/Profile/:id/ProfileEdit" element={<ProfileEdit />} />
+          <Route path="/Profile/ProfileEdit/:id" element={<ProfileEdit />} />
+          <Route path="/Users" element={<UserTable />} />
           <Route path="/MovieItem/:id" element={<MovieItem />} />
         </Routes>
       </div>

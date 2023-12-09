@@ -1,39 +1,43 @@
 import * as client from "../../users/client";
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { useSessionStorage } from "usehooks-ts";
 
 function ProfileEdit() {
   const { id } = useParams();
-  const [account, setAccount] = useState(null);
+  const [account, setAccount] = useState({
+    username: "",
+    password: "",
+    firstName: "",
+    lastName: "",
+    email: "",
+  });
+  const [user, setUser] = useSessionStorage("currentUser");
+
   const findUserById = async (id) => {
     const user = await client.findUserById(id);
     setAccount(user);
   };
 
-  const signout = async () => {
-    await client.signout();
-    navigate("/");
-  };
-
   const navigate = useNavigate();
+
   const fetchAccount = async () => {
     const account = await client.account();
-    setAccount(account);
-  };
-
-  const save = async () => {
-    await client.updateUser(account);
+    setUser(account);
   };
 
   useEffect(() => {
-    console.log(id);
     if (id) {
       findUserById(id);
     } else {
       fetchAccount();
     }
-  }, []);
+  }, [id]);
+
+  const save = async () => {
+    await client.updateUser(account);
+    navigate("/Profile/" + id);
+  };
 
   return (
     <div className="w-50">

@@ -11,6 +11,7 @@ function NavBar() {
         <Link to={`/Search`}>Search</Link>
       </div>
       <div className="d-flex gap-4">
+        {user && user.role === "MODERATOR" && <Link to={`/Users`}>Users</Link>}
         {user && <Link to={`/Profile/` + user._id}>Profile</Link>}
         {!user && <Link to={`/Login`}>Sign in / Sign up</Link>}
       </div>
