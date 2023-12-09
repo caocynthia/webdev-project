@@ -9,6 +9,7 @@ function Signup() {
     username: "",
     password: "",
     role: "USER",
+    likedMovies: [],
   });
 
   const navigate = useNavigate();

@@ -29,35 +29,18 @@ function AdminProfile() {
 
   return (
     <>
-      <div className="row col-sm gap-4">
-        <div className="col-md-2 d-flex flex-column gap-2">
-          <h5>
-            {user.firstName} {user.lastName}
-          </h5>
-          <p>{user.email}</p>
-          <p>{user.role}</p>
-          <div className="d-flex flex-column w-100 gap-4 mb-4">
-            <button
-              onClick={() => navigate("/Profile/ProfileEdit/" + id)}
-              className="btn btn-primary w-100"
-            >
-              Edit Profile
-            </button>
-          </div>
-        </div>
-        <div className="col d-flex flex-column gap-4">
-          <div className="d-flex flex-column gap-2">
-            <h5>Likes</h5>
-            <div className="thing">item here</div>
-            <div className="thing">item here</div>
-          </div>
-
-          <div className="d-flex flex-column gap-2 mt-4">
-            <h5>My Reviews</h5>
-            <div className="thing">item here</div>
-            <div className="thing">item here</div>
-          </div>
-        </div>
+      <h5>
+        {user.firstName} {user.lastName}
+      </h5>
+      <p>{user.email}</p>
+      <p>{user.role}</p>
+      <div className="d-flex flex-column w-100 gap-4 mb-4">
+        <button
+          onClick={() => navigate("/Profile/ProfileEdit/" + id)}
+          className="btn btn-primary w-100"
+        >
+          Edit Profile
+        </button>
       </div>
     </>
   );

@@ -40,63 +40,68 @@ function ProfileEdit() {
   };
 
   return (
-    <div className="w-50">
+    <div className="col col-lg-6">
       <h1>Profile Edit</h1>
       {account && (
         <div className="d-flex flex-column mt-4 gap-4">
           <div className="d-flex flex-column mt-4 gap-4">
-            <div>
-              <label className="col-4">
-                <h5>Username</h5>
-              </label>
-              <input
-                className="form-control"
-                value={account.username}
-                onChange={(e) =>
-                  setAccount({ ...account, username: e.target.value })
-                }
-              />
-            </div>
-            <div>
-              <label className="col-4">
-                <h5>Password</h5>
-              </label>
-              <input
-                className="form-control"
-                value={account.password}
-                onChange={(e) =>
-                  setAccount({ ...account, password: e.target.value })
-                }
-              />
+            <div className="d-flex flex-column flex-md-row gap-2 mb-4">
+              <div className="col-md-6">
+                <label className="">
+                  <h5>Username</h5>
+                </label>
+                <input
+                  className="form-control"
+                  value={account.username}
+                  onChange={(e) =>
+                    setAccount({ ...account, username: e.target.value })
+                  }
+                />
+              </div>
+
+              <div className="col-md-6">
+                <label className="">
+                  <h5>Password</h5>
+                </label>
+                <input
+                  className="form-control"
+                  value={account.password}
+                  onChange={(e) =>
+                    setAccount({ ...account, password: e.target.value })
+                  }
+                />
+              </div>
             </div>
 
-            <div>
-              <label className="col-4">
-                <h5>First Name</h5>
-              </label>
-              <input
-                className="form-control"
-                value={account.firstName}
-                onChange={(e) =>
-                  setAccount({ ...account, firstName: e.target.value })
-                }
-              />
-            </div>
-            <div>
-              <label className="col-4">
-                <h5>Last Name</h5>
-              </label>
-              <input
-                className="form-control"
-                value={account.lastName}
-                onChange={(e) =>
-                  setAccount({ ...account, lastName: e.target.value })
-                }
-              />
+            <div className="d-flex flex-column flex-md-row gap-2 mb-4">
+              <div className="col-md-6">
+                <label className="">
+                  <h5>First Name</h5>
+                </label>
+                <input
+                  className="form-control"
+                  value={account.firstName}
+                  onChange={(e) =>
+                    setAccount({ ...account, firstName: e.target.value })
+                  }
+                />
+              </div>
+              <div className="col-md-6">
+                <label className="">
+                  <h5>Last Name</h5>
+                </label>
+                <input
+                  className="form-control"
+                  value={account.lastName}
+                  onChange={(e) =>
+                    setAccount({ ...account, lastName: e.target.value })
+                  }
+                />
+              </div>
             </div>
 
-            <div>
-              <label className="col-4">
+            <div className="mb-4">
+              <label className="">
                 <h5>Email</h5>
               </label>
               <input
@@ -108,9 +113,17 @@ function ProfileEdit() {
               />
             </div>
           </div>
-          <button className="btn btn-primary w-100" onClick={save}>
-            Save
-          </button>
+          <div className="d-flex gap-2">
+            <button className="btn btn-primary" onClick={save}>
+              Save
+            </button>
+            <button
+              className="btn btn-danger"
+              onClick={() => navigate("/Profile/" + id)}
+            >
+              Cancel
+            </button>
+          </div>
         </div>
       )}
     </div>

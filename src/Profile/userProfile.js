@@ -29,32 +29,20 @@ function UserProfile() {
 
   return (
     <>
-      <div className="row">
-        <div className="col-3 d-flex flex-column gap-2">
-          <h5>
-            {user.firstName} {user.lastName}
-          </h5>
-          <p>{user.email}</p>
-          <div className="d-flex w-100">
-            <button
-              onClick={() => navigate("/Profile/ProfileEdit/" + id)}
-              className="btn btn-primary"
-            >
-              Edit Profile
-            </button>
-          </div>
-        </div>
-        <div className="col-8 d-flex flex-column gap-2">
-          <h5>Likes</h5>
-          <div className="thing">item here</div>
-          <div className="thing">item here</div>
-
-          <div className="col-8 d-flex flex-column gap-2 mt-5">
-            <h5>My Reviews</h5>
-            <div className="thing">item here</div>
-            <div className="thing">item here</div>
-          </div>
-        </div>
+      <h5>
+        {user.firstName} {user.lastName}
+      </h5>
+      <p>{user.email}</p>
+      {!user.firstName && !user.lastName && !user.email && (
+        <div className="mb-2">Finish setting up your profile!</div>
+      )}
+      <div className="d-flex w-100">
+        <button
+          onClick={() => navigate("/Profile/ProfileEdit/" + id)}
+          className="btn btn-primary"
+        >
+          Edit Profile
+        </button>
       </div>
     </>
   );

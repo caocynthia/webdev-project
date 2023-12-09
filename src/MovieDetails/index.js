@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import * as client from "../api/movie-service";
 
 function MovieItem() {
-  const { id: movieID } = useParams();
+  const { movieID } = useParams();
   const [movie, setMovie] = useState(null);
 
   const fetchMovie = async () => {
@@ -22,7 +22,7 @@ function MovieItem() {
     <div className="container p-0">
       <div className="mb-4">
         <a className="" onClick={() => navigate(-1)}>
-          ← Back to search
+          ← Back
         </a>
       </div>
 
