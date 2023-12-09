@@ -1,14 +1,8 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
-import * as client from "../users/client";
+import { useSessionStorage } from "usehooks-ts";
 
 function NavBar() {
-  const [account, setAccount] = useState(null);
-
-  const fetchAccount = async () => {
-    const account = await client.account();
-    setAccount(account);
-  };
+  const [user, setUser] = useSessionStorage("currentUser");
 
   return (
     <div className="navbar">
@@ -17,8 +11,8 @@ function NavBar() {
         <Link to={`/Search`}>Search</Link>
       </div>
       <div className="d-flex gap-4">
-        {account && <Link to={`/Profile`}>Profile</Link>}
-        <Link to={`/Login`}>Sign in / Sign up</Link>
+        {user && <Link to={`/Profile/` + user._id}>Profile</Link>}
+        {!user && <Link to={`/Login`}>Sign in / Sign up</Link>}
       </div>
     </div>
   );

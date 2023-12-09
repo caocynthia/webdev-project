@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import * as client from "../users/client";
 import UserProfile from "./userProfile";
 import AdminProfile from "./adminProfile";
-import Account from "../users/account";
+import { useSessionStorage } from "usehooks-ts";
 
 function Profile() {
   const { id } = useParams();
@@ -30,28 +30,38 @@ function Profile() {
     }
   }, [id]);
 
+  const [user, setUser] = useSessionStorage("currentUser");
+
   const signout = async () => {
-    await client.signout();
-    navigate("/");
+    try {
+      await client.signout();
+      navigate("/");
+      setUser(null);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
     <>
-      <h1>Profile</h1>
-      <Account />
-      {account && account.type === "MODERATOR" && (
+      <div className="d-flex flex-row justify-content-between">
+        <h1>Profile</h1>
+        <button className="btn btn-danger" onClick={() => signout()}>
+          Sign out
+        </button>
+      </div>
+
+      {/* <Account /> */}
+      {account && account.role === "MODERATOR" && (
         <>
           <AdminProfile />
         </>
       )}
-      {account && (
+      {account && account.role === "USER" && (
         <>
           <UserProfile />
         </>
       )}
-      <button className="btn btn-danger" onClick={signout}>
-        Sign out
-      </button>
     </>
   );
 }
