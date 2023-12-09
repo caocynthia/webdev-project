@@ -37,56 +37,76 @@ function ProfileEdit() {
 
   return (
     <div className="w-50">
-      <h1>Account</h1>
+      <h1>Profile Edit</h1>
       {account && (
-        <div>
-          <input
-            value={account.password}
-            onChange={(e) =>
-              setAccount({ ...account, password: e.target.value })
-            }
-          />
-          <br />
-          <input
-            value={account.firstName}
-            onChange={(e) =>
-              setAccount({ ...account, firstName: e.target.value })
-            }
-          />
-          <br />
-          <input
-            value={account.lastName}
-            onChange={(e) =>
-              setAccount({ ...account, lastName: e.target.value })
-            }
-          />
-          <br />
-          <input
-            value={account.dob}
-            onChange={(e) => setAccount({ ...account, dob: e.target.value })}
-          />
-          <br />
-          <input
-            value={account.email}
-            onChange={(e) => setAccount({ ...account, email: e.target.value })}
-          />
-          <br />
-          <select
-            onChange={(e) => setAccount({ ...account, role: e.target.value })}
-          >
-            <option value="USER">User</option>
-            <option value="MODERATOR">Admin</option>
-          </select>
-          <br />
+        <div className="d-flex flex-column mt-4 gap-4">
+          <div className="d-flex flex-column mt-4 gap-4">
+            <div>
+              <label className="col-4">
+                <h5>Username</h5>
+              </label>
+              <input
+                className="form-control"
+                value={account.username}
+                onChange={(e) =>
+                  setAccount({ ...account, username: e.target.value })
+                }
+              />
+            </div>
+            <div>
+              <label className="col-4">
+                <h5>Password</h5>
+              </label>
+              <input
+                className="form-control"
+                value={account.password}
+                onChange={(e) =>
+                  setAccount({ ...account, password: e.target.value })
+                }
+              />
+            </div>
+
+            <div>
+              <label className="col-4">
+                <h5>First Name</h5>
+              </label>
+              <input
+                className="form-control"
+                value={account.firstName}
+                onChange={(e) =>
+                  setAccount({ ...account, firstName: e.target.value })
+                }
+              />
+            </div>
+            <div>
+              <label className="col-4">
+                <h5>Last Name</h5>
+              </label>
+              <input
+                className="form-control"
+                value={account.lastName}
+                onChange={(e) =>
+                  setAccount({ ...account, lastName: e.target.value })
+                }
+              />
+            </div>
+
+            <div>
+              <label className="col-4">
+                <h5>Email</h5>
+              </label>
+              <input
+                className="form-control"
+                value={account.email}
+                onChange={(e) =>
+                  setAccount({ ...account, email: e.target.value })
+                }
+              />
+            </div>
+          </div>
           <button className="btn btn-primary w-100" onClick={save}>
             Save
           </button>
-          <button className="btn btn-danger w-100" onClick={signout}>
-            Signout
-          </button>
-          <Link to="/project/admin/users" className="btn btn-warning w-100">
-            Users
-          </Link>
         </div>
       )}
     </div>
