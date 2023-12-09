@@ -41,10 +41,25 @@ function Profile() {
     }
   }, [id]);
 
-  const fetchMovie = async (movieId) => {
-    let movie = await movieService.findMovieById(movieId);
-    return movie;
+  const fetchMovies = async () => {
+    let movies = [];
+    for (let i = 0; i < user.likedMovies.length; i++) {
+      movies = [
+        ...movies,
+        await movieService.findMovieById(user.likedMovies[i]),
+      ];
+    }
+    setMovies(() => movies);
   };
+
+  useEffect(() => {
+    // for (let i = 0; i < user.likedMovies.length; i++) {
+    //   let movie = fetchMovie(user.likedMovies[i]);
+    //   setMovies([...movies, movie]);
+    // }
+
+    fetchMovies();
+  }, []);
 
   return (
     <>
@@ -83,22 +98,16 @@ function Profile() {
             <div className="row g-0 gap-2">
               {user.likedMovies.length === 0 &&
                 "You haven't liked any movies yet!"}
-              {user.likedMovies.map((movieId) => (
-                <div key={movieId} className="card">
-                  <Link className="link" to={`/MovieItem/${movieId}`}>
-                    <h1 className="searchMovieTitle">
-                      {fetchMovie(movieId).Title}
-                    </h1>
-                    <div className="card-subheading">
-                      Type: {fetchMovie(movieId).Type}
-                    </div>
-                    <div className="card-subheading">
-                      Year: {fetchMovie(movieId).Year}
-                    </div>
+              {movies.map((movie) => (
+                <div key={movie.imdbID + user._id} className="card">
+                  <Link className="link" to={`/MovieItem/${movie.imdbID}`}>
+                    <h1 className="searchMovieTitle">{movie.Title}</h1>
+                    <div className="card-subheading">Type: {movie.Type}</div>
+                    <div className="card-subheading">Year: {movie.Year}</div>
                     <img
                       className="movieCards"
-                      src={fetchMovie(movieId).Poster}
-                      alt={fetchMovie(movieId).Title}
+                      src={movie.Poster}
+                      alt={movie.Title}
                     ></img>
                   </Link>
                 </div>
