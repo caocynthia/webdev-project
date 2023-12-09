@@ -9,23 +9,21 @@ function UserProfile() {
   const [user, setUser] = useSessionStorage("currentUser");
   const navigate = useNavigate();
 
-  const findUserById = async (id) => {
-    const user = await client.findUserById(id);
-    setUser(user);
-  };
-
-  const fetchAccount = async () => {
-    const account = await client.account();
-    setUser(account);
-  };
-
   useEffect(() => {
     if (id) {
+      const findUserById = async (id) => {
+        const user = await client.findUserById(id);
+        setUser(user);
+      };
       findUserById(id);
     } else {
+      const fetchAccount = async () => {
+        const account = await client.account();
+        setUser(account);
+      };
       fetchAccount();
     }
-  }, [id]);
+  }, [id, setUser]);
 
   return (
     <>

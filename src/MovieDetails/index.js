@@ -4,32 +4,39 @@ import { useState, useEffect } from "react";
 import * as client from "../api/movie-service";
 
 function MovieItem() {
-  const { movieID } = useParams();
+  const { id } = useParams();
   const [movie, setMovie] = useState(null);
 
-  const fetchMovie = async () => {
-    const movie = await client.findMovieById(movieID);
-    setMovie(movie);
-  };
-
   useEffect(() => {
+    const fetchMovie = async () => {
+      const movie = await client.findMovieById(id);
+      setMovie(movie);
+    };
     fetchMovie();
-  }, []);
+  }, [id]);
 
   const navigate = useNavigate();
 
   return (
     <div className="container p-0">
       <div className="mb-4">
-        <a className="" onClick={() => navigate(-1)}>
+        <div
+          className="text-decoration-underline text-primary"
+          onClick={() => navigate(-1)}
+        >
           ← Back
-        </a>
+        </div>
       </div>
 
       {movie && (
         <div className="d-flex flex-column flex-md-row gap-4 w-100">
           <div className="pr-4">
-            <img src={movie.Poster}></img>
+            <img src={movie.Poster} alt={"Poster of " + movie.Title}></img>
+            <button className="btn btn-primary">
+              {/* TODO change state based on whether its liked or not */}
+              <i class="bi bi-heart"></i> Like
+              <i class="bi bi-heart-fill"></i> Liked
+            </button>
           </div>
 
           <div className="movie-item-body d-flex flex-column gap-4 w-100">

@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { useSessionStorage } from "usehooks-ts";
 import * as client from "../users/client";
 import { useEffect } from "react";
+import { useSessionStorage } from "usehooks-ts";
 
 function AdminProfile() {
   const { id } = useParams();
@@ -9,23 +9,21 @@ function AdminProfile() {
   const [user, setUser] = useSessionStorage("currentUser");
   const navigate = useNavigate();
 
-  const findUserById = async (id) => {
-    const user = await client.findUserById(id);
-    setUser(user);
-  };
-
-  const fetchAccount = async () => {
-    const account = await client.account();
-    setUser(account);
-  };
-
   useEffect(() => {
     if (id) {
+      const findUserById = async (id) => {
+        const user = await client.findUserById(id);
+        setUser(user);
+      };
       findUserById(id);
     } else {
+      const fetchAccount = async () => {
+        const account = await client.account();
+        setUser(account);
+      };
       fetchAccount();
     }
-  }, [id]);
+  }, [id, setUser]);
 
   return (
     <>

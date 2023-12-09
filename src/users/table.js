@@ -19,14 +19,14 @@ function UserTable() {
     lastName: "",
     role: "USER",
   });
-  const createUser = async () => {
-    try {
-      const newUser = await client.createUser(user);
-      setUsers([newUser, ...users]);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  //   const createUser = async () => {
+  //     try {
+  //       const newUser = await client.createUser(user);
+  //       setUsers([newUser, ...users]);
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   };
 
   const selectUser = async (user) => {
     try {

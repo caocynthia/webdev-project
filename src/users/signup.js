@@ -13,7 +13,7 @@ function Signup() {
   });
 
   const navigate = useNavigate();
-  const [user, setUser] = useSessionStorage("currentUser");
+  const [setUser] = useSessionStorage("currentUser");
 
   const signup = async () => {
     try {

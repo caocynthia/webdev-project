@@ -12,7 +12,7 @@ function Signin() {
   });
 
   const navigate = useNavigate();
-  const [user, setUser] = useSessionStorage("currentUser");
+  const [setUser] = useSessionStorage("currentUser", null);
 
   const signin = async () => {
     try {
@@ -21,6 +21,7 @@ function Signin() {
       navigate("/Profile/" + currentUser._id);
     } catch (err) {
       setError("Wrong username or password, try again!");
+      console.log(err);
     }
   };
 

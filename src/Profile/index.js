@@ -11,17 +11,7 @@ function Profile() {
   const [user, setUser] = useSessionStorage("currentUser");
   const [movies, setMovies] = useState([""]);
 
-  const findUserById = async (id) => {
-    const user = await client.findUserById(id);
-    setUser(user);
-  };
-
   const navigate = useNavigate();
-
-  const fetchAccount = async () => {
-    const account = await client.account();
-    setUser(account);
-  };
 
   const signout = async () => {
     try {
@@ -35,31 +25,45 @@ function Profile() {
 
   useEffect(() => {
     if (id) {
+      const findUserById = async (id) => {
+        const user = await client.findUserById(id);
+        setUser(user);
+      };
       findUserById(id);
     } else {
+      const fetchAccount = async () => {
+        const account = await client.account();
+        setUser(account);
+      };
       fetchAccount();
     }
-  }, [id]);
+  }, [id, setUser]);
 
-  const fetchMovies = async () => {
-    let movies = [];
-    for (let i = 0; i < user.likedMovies.length; i++) {
-      movies = [
-        ...movies,
-        await movieService.findMovieById(user.likedMovies[i]),
-      ];
-    }
-    setMovies(() => movies);
-  };
+  // const fetchMovies = async () => {
+  //   let movies = [];
+  //   for (let i = 0; i < user.likedMovies.length; i++) {
+  //     movies = [
+  //       ...movies,
+  //       await movieService.findMovieById(user.likedMovies[i]),
+  //     ];
+  //   }
+  //   setMovies(() => movies);
+  // };
 
   useEffect(() => {
-    // for (let i = 0; i < user.likedMovies.length; i++) {
-    //   let movie = fetchMovie(user.likedMovies[i]);
-    //   setMovies([...movies, movie]);
-    // }
+    const fetchMovies = async () => {
+      let movies = [];
+      for (let i = 0; i < user.likedMovies.length; i++) {
+        movies = [
+          ...movies,
+          await movieService.findMovieById(user.likedMovies[i]),
+        ];
+      }
+      setMovies(() => movies);
+    };
 
     fetchMovies();
-  }, []);
+  }, [user.likedMovies, setUser]);
 
   return (
     <>

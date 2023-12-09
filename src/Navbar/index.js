@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useSessionStorage } from "usehooks-ts";
 
 function NavBar() {
-  const [user, setUser] = useSessionStorage("currentUser");
+  const [user] = useSessionStorage("currentUser");
 
   return (
     <div className="navbar">
