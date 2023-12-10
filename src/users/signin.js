@@ -12,7 +12,7 @@ function Signin() {
   });
 
   const navigate = useNavigate();
-  const [setUser] = useSessionStorage("currentUser", null);
+  const [user, setUser] = useSessionStorage("currentUser", null);
 
   const signin = async () => {
     try {
