@@ -3,8 +3,6 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import * as client from "../api/movie-service";
 import * as reviewClient from "../reviews/client"
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 function MovieItem() {
   const { movieId, userId } = useParams();
@@ -16,9 +14,6 @@ function MovieItem() {
     // id should be user id
     if (userId) {
       await reviewClient.createUserReviewsMovie(userId, movieId, review);
-    } else {
-      toast.error('You need to sign in to make a review');
-      console.log('error')
     }
     setReview('');
   }
@@ -79,18 +74,19 @@ function MovieItem() {
               <div>
                 <h1>Reviews</h1>
               </div>
-              <div className="review-textbox">
-                  <textarea
-                    value={review}
-                    onChange={(e) => setReview(e.target.value)}
-                  ></textarea>
-                  <button onClick={makeReview} className="btn btn-primary">
-                    + Add a Review
-                  </button>
-              </div>
+              {userId &&
+                <div className="review-textbox">
+                    <textarea
+                      value={review}
+                      onChange={(e) => setReview(e.target.value)}
+                    ></textarea>
+                    <button onClick={makeReview} className="btn btn-primary">
+                      + Add a Review
+                    </button>
+                </div>
+              }
               <ul className="list-group">
                 {movieReviews.map((review, index) => (
-                  
                   <li key={index} className="list-group-item card review-card row mt-2 gap-4 g-0">
                     <h3>{review.username}</h3>
                     <div>
@@ -99,7 +95,6 @@ function MovieItem() {
                   </li>
                 ))}
               </ul>
-              <ToastContainer />
             </div>
           </div>
         </div>
