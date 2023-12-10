@@ -22,3 +22,7 @@ export const findUsersWhoReviewsMovie = (movieId) => {
     const response = axios.get(`${REVIEWS_API}/movies/${movieId}/reviews`);
     return response.data;
 }
+export const deleteUserReview = (userId, movieId, review) => {
+    const response = axios.delete(`${REVIEWS_API}/users/${userId}/reviews/${movieId}`);
+    return response.data;
+}

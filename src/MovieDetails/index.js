@@ -2,17 +2,31 @@ import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import * as client from "../api/movie-service";
-
+import * as reviewClient from "../reviews/client"
 function MovieItem() {
   const { id } = useParams();
   const [movie, setMovie] = useState(null);
+  const [review, setReview] = useState('');
+  const [movieReviews, setMovieReviews] = useState([])
 
+  const makeReview = async () => {
+    // id should be user id
+    await reviewClient.createUserReviewsMovie(id, movie.id, review);
+    setReview('');
+  }
+  
   useEffect(() => {
     const fetchMovie = async () => {
       const movie = await client.findMovieById(id);
       setMovie(movie);
     };
+
+    const fetchMovieReviews = async () => {
+      const reviews = await reviewClient.findAllReviews();
+      setMovieReviews(reviews)
+    }
     fetchMovie();
+    fetchMovieReviews();
   }, [id]);
 
   const navigate = useNavigate();
@@ -56,15 +70,25 @@ function MovieItem() {
               <div>
                 <h1>Reviews</h1>
               </div>
-              <div>
-                <button className="btn btn-primary">+ Add a Review</button>
+              <div className="review-textbox">
+                  <textarea
+                    value={review}
+                    onChange={(e) => setReview(e.target.value)}
+                  ></textarea>
+                  <button onClick={makeReview} className="btn btn-primary">
+                    + Add a Review
+                  </button>
               </div>
-              <div className="row mt-2 gap-4 g-0">
-                <div className="card review-card">
-                  <div>Username</div>
-                  <div>review here aaa</div>
-                </div>
-              </div>
+              <ul className="list-group">
+                {movieReviews.map((review, index) => (
+                  <li key={index} className="list-group-item card review-card row mt-2 gap-4 g-0">
+                    <h3>{review.username}</h3>
+                    <div>
+                      {review.review}
+                    </div>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </div>

@@ -106,3 +106,8 @@ code {
 .table {
   --bs-table-bg: transparent;
 }
+
+.review-textbox {
+  display: flex;
+  align-items: center;
+}
