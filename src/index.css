@@ -43,7 +43,7 @@ code {
 }
 
 .page-padding {
-  padding: 40px 64px 0 64px;
+  padding: 40px 64px 40px 64px;
 }
 
 .app {
@@ -101,4 +101,13 @@ code {
   @media (min-width: 768px) {
       padding-left: 40px;
     }
+}
+
+.table {
+  --bs-table-bg: transparent;
+}
+
+.review-textbox {
+  display: flex;
+  align-items: center;
 }
