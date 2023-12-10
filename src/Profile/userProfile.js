@@ -1,28 +1,46 @@
-import { Link } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import { useSessionStorage } from "usehooks-ts";
+import * as client from "../users/client";
+import { useEffect } from "react";
+
 function UserProfile() {
+  const { id } = useParams();
+
+  const [user, setUser] = useSessionStorage("currentUser");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (id) {
+      const findUserById = async (id) => {
+        const user = await client.findUserById(id);
+        setUser(user);
+      };
+      findUserById(id);
+    } else {
+      const fetchAccount = async () => {
+        const account = await client.account();
+        setUser(account);
+      };
+      fetchAccount();
+    }
+  }, [id, setUser]);
+
   return (
     <>
-      <div className="page-padding">
-        <i className="profile-pic bi bi-person-circle"></i>
-        <div className="row">
-          <div className="col-3 d-flex flex-column gap-2">
-            <h5>Name</h5>
-            <p>bio text here lalala</p>
-            <Link to="ProfileEdit" className="btn btn-primary w-50">Edit Profile</Link>
-          </div>
-          <div className="col-8 d-flex flex-column gap-2">
-            <h5>Likes</h5>
-            <div className="thing">item here</div>
-            <div className="thing">item here</div>
-
-            <div className="col-8 d-flex flex-column gap-2 mt-5">
-            <h5>My Reviews</h5>
-            <div className="thing">item here</div>
-            <div className="thing">item here</div>
-          </div>
-          </div>
-          
-        </div>
+      <h5>
+        {user.firstName} {user.lastName}
+      </h5>
+      <p>{user.email}</p>
+      {!user.firstName && !user.lastName && !user.email && (
+        <div className="mb-2">Finish setting up your profile!</div>
+      )}
+      <div className="d-flex w-100">
+        <button
+          onClick={() => navigate("/Profile/ProfileEdit/" + id)}
+          className="btn btn-primary"
+        >
+          Edit Profile
+        </button>
       </div>
     </>
   );

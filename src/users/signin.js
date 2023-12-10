@@ -1,22 +1,35 @@
 import * as client from "./client";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSessionStorage } from "usehooks-ts";
 
 function Signin() {
+  const [error, setError] = useState("");
+
   const [credentials, setCredentials] = useState({
     username: "",
     password: "",
   });
+
   const navigate = useNavigate();
+  const [setUser] = useSessionStorage("currentUser", null);
+
   const signin = async () => {
-    await client.signin(credentials);
-    navigate("/");
+    try {
+      let currentUser = await client.signin(credentials);
+      setUser(currentUser);
+      navigate("/Profile/" + currentUser._id);
+    } catch (err) {
+      setError("Wrong username or password, try again!");
+      console.log(err);
+    }
   };
 
   return (
     <>
       <div className="card w-50 d-flex flex-column col-4 gap-2">
         <h5>Sign in with an existing account!</h5>
+        {error && <div>{error}</div>}
         <div>
           <input
             className="form-control"
