@@ -2,6 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import * as client from "../users/client";
 import { useEffect } from "react";
 import { useSessionStorage } from "usehooks-ts";
+import UserTable from "../users/table";
 
 function AdminProfile() {
   const { id } = useParams();
@@ -39,6 +40,7 @@ function AdminProfile() {
         >
           Edit Profile
         </button>
+<UserTable />
       </div>
     </>
   );

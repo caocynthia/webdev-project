@@ -38,12 +38,13 @@ function UserTable() {
   };
   const updateUser = async () => {
     try {
-      await client.updateUser(user);
+      const status = await client.updateUser(user);
       setUsers(users.map((u) => (u._id === user._id ? user : u)));
     } catch (err) {
       console.log(err);
     }
   };
+
 
   const deleteUser = async (user) => {
     try {
@@ -54,9 +55,11 @@ function UserTable() {
     }
   };
 
+
   return (
     <div>
       <h3 className="mb-4">User List</h3>
+
       <table className="table">
         <thead>
           <tr>
@@ -145,4 +148,5 @@ function UserTable() {
     </div>
   );
 }
+
 export default UserTable;
