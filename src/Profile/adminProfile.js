@@ -40,7 +40,6 @@ function AdminProfile() {
         >
           Edit Profile
         </button>
-<UserTable />
       </div>
     </>
   );
