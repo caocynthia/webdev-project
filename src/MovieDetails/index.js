@@ -3,31 +3,40 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import * as client from "../api/movie-service";
 import * as reviewClient from "../reviews/client"
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 function MovieItem() {
-  const { id } = useParams();
+  const { movieId, userId } = useParams();
   const [movie, setMovie] = useState(null);
   const [review, setReview] = useState('');
   const [movieReviews, setMovieReviews] = useState([])
 
   const makeReview = async () => {
     // id should be user id
-    await reviewClient.createUserReviewsMovie(id, movie.id, review);
+    if (userId) {
+      await reviewClient.createUserReviewsMovie(userId, movieId, review);
+    } else {
+      toast.error('You need to sign in to make a review');
+      console.log('error')
+    }
     setReview('');
   }
   
   useEffect(() => {
     const fetchMovie = async () => {
-      const movie = await client.findMovieById(id);
+      const movie = await client.findMovieById(movieId);
       setMovie(movie);
     };
 
     const fetchMovieReviews = async () => {
       const reviews = await reviewClient.findAllReviews();
-      setMovieReviews(reviews)
+      const filteredReviews = reviews.filter((review) => review.movieId === movieId);
+      setMovieReviews(filteredReviews)
     }
     fetchMovie();
     fetchMovieReviews();
-  }, [id]);
+  }, [movieId]);
 
   const navigate = useNavigate();
 
@@ -81,6 +90,7 @@ function MovieItem() {
               </div>
               <ul className="list-group">
                 {movieReviews.map((review, index) => (
+                  
                   <li key={index} className="list-group-item card review-card row mt-2 gap-4 g-0">
                     <h3>{review.username}</h3>
                     <div>
@@ -89,6 +99,7 @@ function MovieItem() {
                   </li>
                 ))}
               </ul>
+              <ToastContainer />
             </div>
           </div>
         </div>
