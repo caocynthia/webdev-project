@@ -18,6 +18,7 @@ function Signin() {
     try {
       let currentUser = await client.signin(credentials);
       setUser(currentUser);
+      setUser(user);
       navigate("/Profile/" + currentUser._id);
     } catch (err) {
       setError("Wrong username or password, try again!");
