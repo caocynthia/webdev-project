@@ -63,7 +63,7 @@ function Profile() {
     };
 
     fetchMovies();
-  }, [user.likedMovies, setUser]);
+  }, [user.likedMovies]);
 
   return (
     <>
