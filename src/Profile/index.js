@@ -37,14 +37,14 @@ function Profile() {
   useEffect(() => {
     if (id) {
       const findUserById = async (id) => {
-        await client.findUserById(id);
+        const user = await client.findUserById(id);
         setAccount(user);
         // setUser(user);
       };
       findUserById(id);
     } else {
       const fetchAccount = async () => {
-        await client.account();
+        const account = await client.account();
         setAccount(account);
         // setUser(account);
       };
@@ -116,7 +116,7 @@ function Profile() {
               {account.likedMovies.length === 0 &&
                 "You haven't liked any movies yet!"}
               {movies.map((movie) => (
-                <div key={movie.imdbID + user._id} className="card">
+                <div key={movie.imdbID + accpunt._id} className="card">
                   <Link className="link" to={`/MovieItem/${movie.imdbID}`}>
                     <h1 className="searchMovieTitle">{movie.Title}</h1>
                     <div className="card-subheading">Type: {movie.Type}</div>
