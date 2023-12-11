@@ -116,7 +116,7 @@ function Profile() {
               {account.likedMovies.length === 0 &&
                 "You haven't liked any movies yet!"}
               {movies.map((movie) => (
-                <div key={movie.imdbID + accpunt._id} className="card">
+                <div key={movie.imdbID + account._id} className="card">
                   <Link className="link" to={`/MovieItem/${movie.imdbID}`}>
                     <h1 className="searchMovieTitle">{movie.Title}</h1>
                     <div className="card-subheading">Type: {movie.Type}</div>
