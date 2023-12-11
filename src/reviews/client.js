@@ -4,7 +4,7 @@ const request = axios.create({
   withCredentials: true,
 });
 
-const REVIEWS_API = "http://localhost:4000/api";
+export const REVIEWS_API = `${process.env.REACT_APP_API_URL}/api`;
 
 export const findAllReviews = async () => {
   const response = await request.get(`${REVIEWS_API}/reviews`);
