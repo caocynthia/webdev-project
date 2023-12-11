@@ -57,6 +57,7 @@ function UserTable() {
   return (
     <div>
       <h3 className="mb-4">User List</h3>
+
       <table className="table">
         <thead>
           <tr>
@@ -145,4 +146,5 @@ function UserTable() {
     </div>
   );
 }
+
 export default UserTable;

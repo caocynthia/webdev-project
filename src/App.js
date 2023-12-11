@@ -21,7 +21,7 @@ function App() {
           <Route path="/Login" element={<LoginPage />} />
           <Route path="/Profile/ProfileEdit/:id" element={<ProfileEdit />} />
           <Route path="/Users" element={<UserTable />} />
-          <Route path="/MovieItem/:id" element={<MovieItem />} />
+          <Route path="/MovieItem/:movieId" element={<MovieItem />} />
         </Routes>
       </div>
     </>

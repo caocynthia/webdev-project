@@ -60,4 +60,5 @@ function SearchMovie() {
   );
 }
 
+
 export default SearchMovie;

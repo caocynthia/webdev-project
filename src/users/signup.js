@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as client from "./client";
-import { useSessionStorage } from "usehooks-ts";
 
 function Signup() {
   const [error, setError] = useState("");
@@ -9,17 +8,15 @@ function Signup() {
     username: "",
     password: "",
     role: "USER",
-    likedMovies: [],
+    likedMovies: [""],
   });
 
   const navigate = useNavigate();
-  const [setUser] = useSessionStorage("currentUser");
 
   const signup = async () => {
     try {
-      let currentUser = await client.signup(credentials);
-      setUser(currentUser);
-      navigate("/Profile/" + currentUser._id);
+      await client.signup(credentials);
+      navigate("/Profile");
     } catch (err) {
       setError("This username already exists, try again!");
     }
