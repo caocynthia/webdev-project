@@ -3,22 +3,13 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import * as client from "../users/client";
 import UserProfile from "./userProfile";
 import AdminProfile from "./adminProfile";
-import * as movieService from "../api/movie-service";
+import { useSessionStorage } from "usehooks-ts";
 
 function Profile() {
   const { id } = useParams();
-  const [movies, setMovies] = useState([""]);
-
-  const [account, setAccount] = useState({
-    username: "",
-    password: "",
-    firstName: "",
-    lastName: "",
-    dob: "",
-    email: "",
-    role: "",
-    likedMovies: [],
-  });
+  const [user, setUser] = useSessionStorage("currentUser");
+  const [movies, setMovies] = useState([]);
+  const [movie, setMovie] = useState({});
 
   const navigate = useNavigate();
 
@@ -26,6 +17,7 @@ function Profile() {
     try {
       await client.signout();
       navigate("/");
+      setUser(null);
     } catch (err) {
       console.log(err);
     }
@@ -35,32 +27,48 @@ function Profile() {
     if (id) {
       const findUserById = async (id) => {
         const user = await client.findUserById(id);
-        setAccount(user);
+        setUser(user);
       };
       findUserById(id);
     } else {
       const fetchAccount = async () => {
         const account = await client.account();
-        setAccount(account);
+        setUser(account);
       };
       fetchAccount();
     }
-  }, [id]);
+  }, [id, setUser]);
 
   useEffect(() => {
-    const fetchMovies = async () => {
-      let movies = [];
-      for (let i = 0; i < account.likedMovies.length; i++) {
-        movies = [
-          ...movies,
-          await movieService.findMovieById(account.likedMovies[i]),
-        ];
+    const options = {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization:
+          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMzE0NDQ1ZTJhMjFlMmRiYjUzYjY1NjQyNjE3NmY0NSIsInN1YiI6IjY1NzVlZGQ5N2EzYzUyMDE0ZTY5OWVlNCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ._1pdIxA6xMlm-YnaNEII4yImoCc0e2UB77IBohSNapk",
+      },
+    };
+
+    const fetchMovies = () => {
+      let listMovies = [];
+      for (let i = 0; i < user.likedMovies.length; i++) {
+        fetch(
+          `https://api.themoviedb.org/3/movie/${user.likedMovies[i]}?language=en-US`,
+          options
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            setMovie(data);
+          })
+          .catch((err) => console.error(err));
+        listMovies.push(movie);
       }
-      setMovies(() => movies);
+      console.log(listMovies);
+      setMovies(listMovies);
     };
 
     fetchMovies();
-  }, [account.likedMovies]);
+  }, [user.likedMovies]);
 
   return (
     <>
@@ -76,12 +84,12 @@ function Profile() {
       <div className="row col-sm gap-4">
         <div className="col-md-3 col-xl-2 d-flex flex-column gap-2">
           {/* <Account /> */}
-          {account && account.role === "MODERATOR" && (
+          {user && user.role === "MODERATOR" && (
             <>
               <AdminProfile />
             </>
           )}
-          {account && account.role === "USER" && (
+          {user && user.role === "USER" && (
             <>
               <UserProfile />
             </>
@@ -96,23 +104,40 @@ function Profile() {
 
           <div className="d-flex flex-column gap-2 mt-4">
             <h5>Liked Movies</h5>
-            <div className="row g-0 gap-2">
-              {account.likedMovies.length === 0 &&
+            <div className="d-flex gap-2">
+              {user.likedMovies.length === 0 &&
                 "You haven't liked any movies yet!"}
-              {movies.map((movie) => (
-                <div key={movie.imdbID + account._id} className="card">
-                  <Link className="link" to={`/MovieItem/${movie.imdbID}`}>
-                    <h1 className="searchMovieTitle">{movie.Title}</h1>
-                    <div className="card-subheading">Type: {movie.Type}</div>
-                    <div className="card-subheading">Year: {movie.Year}</div>
-                    <img
-                      className="movieCards"
-                      src={movie.Poster}
-                      alt={movie.Title}
-                    ></img>
-                  </Link>
-                </div>
-              ))}
+              <h2>{movies.map((movie) => movie.title)}</h2>
+              {
+                // movies.map((movie) => {
+                // <h3>{movie.id}</h3>;
+                // <div key={movie.id} className="card">
+                //   <Link className="link" to={`/MovieItem/${movie.id}`}>
+                //     <h6>{movie.title}</h6>
+                //     <div>Popularity: {movie.popularity}</div>
+                //     Vote Average: {movie.vote_average}
+                //     <img
+                //       className="movieCards"
+                //       src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+                //       alt={movie.title}
+                //     />
+                //   </Link>
+                // </div>;
+                // <div key={movie.id + user._id} className="card">
+                //   <Link className="link" to={`/MovieItem/${movie.id}`}>
+                //     <h1 className="searchMovieTitle">{movie.title}</h1>
+                //     <div className="card-subheading">
+                //       Year: {movie.release_date}
+                //     </div>
+                //     <img
+                //       className="movieCards"
+                //       src={movie.Poster}
+                //       alt={movie.Title}
+                //     ></img>
+                //   </Link>
+                // </div>
+                // })
+              }
             </div>
           </div>
         </div>

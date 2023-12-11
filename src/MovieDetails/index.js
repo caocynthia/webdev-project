@@ -36,7 +36,6 @@ function MovieItem() {
         setMovie(data);
       })
       .catch((err) => console.error(err));
-    console.log(movie);
 
     const fetchMovieReviews = async () => {
       const reviews = await reviewClient.findAllReviews();
@@ -65,7 +64,6 @@ function MovieItem() {
       {movie && (
         <div className="d-flex flex-column flex-md-row gap-4 w-100">
           <div className="pr-4">
-            {movie.id}
             <img
               className="movie-poster"
               src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
@@ -73,32 +71,17 @@ function MovieItem() {
             ></img>
             <button className="btn btn-primary">
               {/* TODO change state based on whether its liked or not */}
-              <i class="bi bi-heart"></i> Like
-              <i class="bi bi-heart-fill"></i> Liked
+              <i className="bi bi-heart"></i> Like
+              <i className="bi bi-heart-fill"></i> Liked
             </button>
           </div>
-          {/* {console.log(movie)} */}
           <div className="movie-item-body d-flex flex-column gap-4 w-100">
             {/* Movie Info */}
             <div>
-              <div>
-                {movie.Type} | {movie.Runtime}
-              </div>
-              <h1>{movie.Title}</h1>
-              <div>{movie.Genre}</div>
+              <h1>{movie.title} | {movie.runtime} min</h1>
+              <div>{movie.overview}</div>
               <br />
-              <div>{movie.Plot}</div>
-              <br />
-              <h1>Ratings</h1>
-
-              {/* {movie.Ratings.forEach((rating) => {
-                <>
-                {console.log(rating.Source)}
-                  <div>{rating.Source}</div>
-                  <div>{rating.value}</div>
-                </>
-              })} */}
-              {/* <div>{movie.Ratings}</div> */}
+              <h4>Rating: {movie.vote_average}</h4>
             </div>
 
             {/* Reviews */}
