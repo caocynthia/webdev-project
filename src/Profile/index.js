@@ -4,12 +4,12 @@ import * as client from "../users/client";
 import UserProfile from "./userProfile";
 import AdminProfile from "./adminProfile";
 import { useSessionStorage } from "usehooks-ts";
-import * as movieService from "../api/movie-service";
 
 function Profile() {
   const { id } = useParams();
   const [user, setUser] = useSessionStorage("currentUser");
-  const [movies, setMovies] = useState([""]);
+  const [movies, setMovies] = useState([]);
+  const [movie, setMovie] = useState({});
 
   const navigate = useNavigate();
 
@@ -39,31 +39,30 @@ function Profile() {
     }
   }, [id, setUser]);
 
-  // const fetchMovies = async () => {
-  //   let movies = [];
-  //   for (let i = 0; i < user.likedMovies.length; i++) {
-  //     movies = [
-  //       ...movies,
-  //       await movieService.findMovieById(user.likedMovies[i]),
-  //     ];
-  //   }
-  //   setMovies(() => movies);
-  // };
-
   useEffect(() => {
-    const fetchMovies = async () => {
-      let movies = [];
-      for (let i = 0; i < user.likedMovies.length; i++) {
-        movies = [
-          ...movies,
-          await movieService.findMovieById(user.likedMovies[i]),
-        ];
-      }
-      setMovies(() => movies);
+    const options = {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization:
+          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMzE0NDQ1ZTJhMjFlMmRiYjUzYjY1NjQyNjE3NmY0NSIsInN1YiI6IjY1NzVlZGQ5N2EzYzUyMDE0ZTY5OWVlNCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ._1pdIxA6xMlm-YnaNEII4yImoCc0e2UB77IBohSNapk",
+      },
     };
 
-    fetchMovies();
-  }, [user.likedMovies, setUser]);
+    const fetchMovies = (id) => {
+      fetch(`https://api.themoviedb.org/3/movie/${id}?language=en-US`, options)
+        .then((response) => response.json())
+        .then((data) => {
+          setMovie(data);
+        })
+        .catch((err) => console.error(err));
+      return movie;
+    };
+
+    let listMovies = user.likedMovies.map((movie) => fetchMovies(movie));
+    console.log(fetchMovies(user.likedMovies[0]));
+    setMovies(listMovies);
+  }, [user.likedMovies]);
 
   return (
     <>
@@ -102,20 +101,33 @@ function Profile() {
             <div className="row g-0 gap-2">
               {user.likedMovies.length === 0 &&
                 "You haven't liked any movies yet!"}
-              {movies.map((movie) => (
-                <div key={movie.imdbID + user._id} className="card">
-                  <Link className="link" to={`/MovieItem/${movie.imdbID}`}>
-                    <h1 className="searchMovieTitle">{movie.Title}</h1>
-                    <div className="card-subheading">Type: {movie.Type}</div>
-                    <div className="card-subheading">Year: {movie.Year}</div>
+              {movies.map((movie) => {
+                <div key={movie.id} className="card">
+                  <Link className="link" to={`/MovieItem/${movie.id}`}>
+                    <h6>{movie.title}</h6>
+                    <div>Popularity: {movie.popularity}</div>
+                    Vote Average: {movie.vote_average}
                     <img
                       className="movieCards"
-                      src={movie.Poster}
-                      alt={movie.Title}
-                    ></img>
+                      src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+                      alt={movie.title}
+                    />
                   </Link>
-                </div>
-              ))}
+                </div>;
+                // <div key={movie.id + user._id} className="card">
+                //   <Link className="link" to={`/MovieItem/${movie.id}`}>
+                //     <h1 className="searchMovieTitle">{movie.title}</h1>
+                //     <div className="card-subheading">
+                //       Year: {movie.release_date}
+                //     </div>
+                //     <img
+                //       className="movieCards"
+                //       src={movie.Poster}
+                //       alt={movie.Title}
+                //     ></img>
+                //   </Link>
+                // </div>
+              })}
             </div>
           </div>
         </div>
