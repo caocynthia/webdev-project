@@ -1,62 +1,37 @@
 import { useParams, useNavigate } from "react-router-dom";
+import { useSessionStorage } from "usehooks-ts";
 import * as client from "../users/client";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 function UserProfile() {
   const { id } = useParams();
 
-  const [account, setAccount] = useState({
-    username: "",
-    password: "",
-    firstName: "",
-    lastName: "",
-    dob: "",
-    email: "",
-    role: "",
-    likedMovies: [],
-  });
-
+  const [user, setUser] = useSessionStorage("currentUser");
   const navigate = useNavigate();
 
   useEffect(() => {
     if (id) {
       const findUserById = async (id) => {
         const user = await client.findUserById(id);
-        setAccount(user);
+        setUser(user);
       };
       findUserById(id);
     } else {
       const fetchAccount = async () => {
         const account = await client.account();
-        setAccount(account);
+        setUser(account);
       };
       fetchAccount();
     }
-  }, [id]);
-
-  useEffect(() => {
-    if (id) {
-      const findUserById = async (id) => {
-        const user = await client.findUserById(id);
-        setAccount(user);
-      };
-      findUserById(id);
-    } else {
-      const fetchAccount = async () => {
-        const account = await client.account();
-        setAccount(account);
-      };
-      fetchAccount();
-    }
-  }, [id]);
+  }, [id, setUser]);
 
   return (
     <>
       <h5>
-        {account.firstName} {account.lastName}
+        {user.firstName} {user.lastName}
       </h5>
-      <p>{account.email}</p>
-      {!account.firstName && !account.lastName && !account.email && (
+      <p>{user.email}</p>
+      {!user.firstName && !user.lastName && !user.email && (
         <div className="mb-2">Finish setting up your profile!</div>
       )}
       <div className="d-flex w-100">
