@@ -49,19 +49,25 @@ function Profile() {
       },
     };
 
-    const fetchMovies = (id) => {
-      fetch(`https://api.themoviedb.org/3/movie/${id}?language=en-US`, options)
-        .then((response) => response.json())
-        .then((data) => {
-          setMovie(data);
-        })
-        .catch((err) => console.error(err));
-      return movie;
+    const fetchMovies = () => {
+      let listMovies = [];
+      for (let i = 0; i < user.likedMovies.length; i++) {
+        fetch(
+          `https://api.themoviedb.org/3/movie/${user.likedMovies[i]}?language=en-US`,
+          options
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            setMovie(data);
+          })
+          .catch((err) => console.error(err));
+        listMovies.push(movie);
+      }
+      console.log(listMovies);
+      setMovies(listMovies);
     };
 
-    let listMovies = user.likedMovies.map((movie) => fetchMovies(movie));
-    console.log(fetchMovies(user.likedMovies[0]));
-    setMovies(listMovies);
+    fetchMovies();
   }, [user.likedMovies]);
 
   return (
@@ -98,22 +104,25 @@ function Profile() {
 
           <div className="d-flex flex-column gap-2 mt-4">
             <h5>Liked Movies</h5>
-            <div className="row g-0 gap-2">
+            <div className="d-flex gap-2">
               {user.likedMovies.length === 0 &&
                 "You haven't liked any movies yet!"}
-              {movies.map((movie) => {
-                <div key={movie.id} className="card">
-                  <Link className="link" to={`/MovieItem/${movie.id}`}>
-                    <h6>{movie.title}</h6>
-                    <div>Popularity: {movie.popularity}</div>
-                    Vote Average: {movie.vote_average}
-                    <img
-                      className="movieCards"
-                      src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
-                      alt={movie.title}
-                    />
-                  </Link>
-                </div>;
+              <h2>{movies.map((movie) => movie.title)}</h2>
+              {
+                // movies.map((movie) => {
+                // <h3>{movie.id}</h3>;
+                // <div key={movie.id} className="card">
+                //   <Link className="link" to={`/MovieItem/${movie.id}`}>
+                //     <h6>{movie.title}</h6>
+                //     <div>Popularity: {movie.popularity}</div>
+                //     Vote Average: {movie.vote_average}
+                //     <img
+                //       className="movieCards"
+                //       src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+                //       alt={movie.title}
+                //     />
+                //   </Link>
+                // </div>;
                 // <div key={movie.id + user._id} className="card">
                 //   <Link className="link" to={`/MovieItem/${movie.id}`}>
                 //     <h1 className="searchMovieTitle">{movie.title}</h1>
@@ -127,7 +136,8 @@ function Profile() {
                 //     ></img>
                 //   </Link>
                 // </div>
-              })}
+                // })
+              }
             </div>
           </div>
         </div>
