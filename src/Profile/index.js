@@ -3,12 +3,10 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import * as client from "../users/client";
 import UserProfile from "./userProfile";
 import AdminProfile from "./adminProfile";
-// import { useSessionStorage } from "usehooks-ts";
 import * as movieService from "../api/movie-service";
 
 function Profile() {
   const { id } = useParams();
-  // const [user, setUser] = useSessionStorage("currentUser");
   const [movies, setMovies] = useState([""]);
 
   const [account, setAccount] = useState({
@@ -28,7 +26,6 @@ function Profile() {
     try {
       await client.signout();
       navigate("/");
-      // setUser(null);
     } catch (err) {
       console.log(err);
     }
@@ -39,29 +36,16 @@ function Profile() {
       const findUserById = async (id) => {
         const user = await client.findUserById(id);
         setAccount(user);
-        // setUser(user);
       };
       findUserById(id);
     } else {
       const fetchAccount = async () => {
         const account = await client.account();
         setAccount(account);
-        // setUser(account);
       };
       fetchAccount();
     }
   }, [id]);
-
-  // const fetchMovies = async () => {
-  //   let movies = [];
-  //   for (let i = 0; i < user.likedMovies.length; i++) {
-  //     movies = [
-  //       ...movies,
-  //       await movieService.findMovieById(user.likedMovies[i]),
-  //     ];
-  //   }
-  //   setMovies(() => movies);
-  // };
 
   useEffect(() => {
     const fetchMovies = async () => {
