@@ -13,12 +13,13 @@ function Signup() {
   });
 
   const navigate = useNavigate();
-  const [setUser] = useSessionStorage("currentUser");
+  const [user, setUser] = useSessionStorage("currentUser");
 
   const signup = async () => {
     try {
       let currentUser = await client.signup(credentials);
       setUser(currentUser);
+      console.log(user);
       navigate("/Profile/" + currentUser._id);
     } catch (err) {
       setError("This username already exists, try again!");
