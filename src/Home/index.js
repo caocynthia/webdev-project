@@ -34,22 +34,20 @@ function Home() {
           <h1>Top 7</h1>
           <ul className="list-group">
             {topMovies.slice(0, 7).map((movie, index) => (
-              <>
+              <div key={movie.id}>
                 <Link className="link" to={`/MovieItem/${movie.id}`}>
                   <li className="list-group-item" key={index}>
                     <img
                       className="movieCards"
                       src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
                       alt={movie.name}
-                    >
-                      {console.log(movie)}
-                    </img>
+                    />
                     <div>{movie.name}</div>
                     <div>Popularity: {movie.popularity}</div>
                     Vote Average: {movie.vote_average}
                   </li>
                 </Link>
-              </>
+              </div>
             ))}
           </ul>
         </div>

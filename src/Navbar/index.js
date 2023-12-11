@@ -1,3 +1,4 @@
+import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import * as client from "../users/client";
@@ -14,13 +15,23 @@ function NavBar() {
     likedMovies: [],
   });
 
+  const { id } = useParams();
+
   useEffect(() => {
-    const fetchAccount = async () => {
-      const account = await client.account();
-      setAccount(account);
-    };
-    fetchAccount();
-  }, []);
+    if (id) {
+      const findUserById = async (id) => {
+        const user = await client.findUserById(id);
+        setAccount(user);
+      };
+      findUserById();
+    } else {
+      const fetchAccount = async () => {
+        const account = await client.account();
+        setAccount(account);
+      };
+      fetchAccount();
+    }
+  }, [id]);
 
   return (
     <div className="navbar">
