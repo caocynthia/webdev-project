@@ -18,6 +18,7 @@ function Signin() {
     try {
       let currentUser = await client.signin(credentials);
       setUser(currentUser);
+      //testing
       console.log(user);
       navigate("/Profile/" + currentUser._id);
     } catch (err) {
