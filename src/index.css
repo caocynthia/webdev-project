@@ -116,3 +116,9 @@ code {
   display: flex;
   align-items: center;
 }
+
+.section-color {
+  background-color: rgb(252, 252, 227);
+  border-color: 2px black;
+  padding: 30px;
+}
