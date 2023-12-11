@@ -38,12 +38,14 @@ function Profile() {
     if (id) {
       const findUserById = async (id) => {
         await client.findUserById(id);
+        setAccount(user);
         // setUser(user);
       };
       findUserById(id);
     } else {
       const fetchAccount = async () => {
         await client.account();
+        setAccount(account);
         // setUser(account);
       };
       fetchAccount();
