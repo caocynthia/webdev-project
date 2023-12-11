@@ -9,7 +9,7 @@ function Profile() {
   const { id } = useParams();
   const [user, setUser] = useSessionStorage("currentUser");
   const [movies, setMovies] = useState([]);
-  const [movie, setMovie] = useState({});
+  // const [movie, setMovie] = useState({});
 
   const navigate = useNavigate();
 
@@ -50,7 +50,6 @@ function Profile() {
     };
 
     const fetchMovies = () => {
-      let listMovies = [];
       for (let i = 0; i < user.likedMovies.length; i++) {
         fetch(
           `https://api.themoviedb.org/3/movie/${user.likedMovies[i]}?language=en-US`,
@@ -58,13 +57,10 @@ function Profile() {
         )
           .then((response) => response.json())
           .then((data) => {
-            setMovie(data);
+            setMovies([...movies, data]);
           })
           .catch((err) => console.error(err));
-        listMovies.push(movie);
       }
-      console.log(listMovies);
-      setMovies(listMovies);
     };
 
     fetchMovies();
@@ -107,37 +103,21 @@ function Profile() {
             <div className="d-flex gap-2">
               {user.likedMovies.length === 0 &&
                 "You haven't liked any movies yet!"}
-              <h2>{movies.map((movie) => movie.title)}</h2>
-              {
-                // movies.map((movie) => {
-                // <h3>{movie.id}</h3>;
-                // <div key={movie.id} className="card">
-                //   <Link className="link" to={`/MovieItem/${movie.id}`}>
-                //     <h6>{movie.title}</h6>
-                //     <div>Popularity: {movie.popularity}</div>
-                //     Vote Average: {movie.vote_average}
-                //     <img
-                //       className="movieCards"
-                //       src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
-                //       alt={movie.title}
-                //     />
-                //   </Link>
-                // </div>;
-                // <div key={movie.id + user._id} className="card">
-                //   <Link className="link" to={`/MovieItem/${movie.id}`}>
-                //     <h1 className="searchMovieTitle">{movie.title}</h1>
-                //     <div className="card-subheading">
-                //       Year: {movie.release_date}
-                //     </div>
-                //     <img
-                //       className="movieCards"
-                //       src={movie.Poster}
-                //       alt={movie.Title}
-                //     ></img>
-                //   </Link>
-                // </div>
-                // })
-              }
+              {movies.map((movie, index) => (
+                <div key={index} className="card">
+                  <Link className="link" to={`/MovieItem/${movie.id}`}>
+                    <h1 className="searchMovieTitle">{movie.title}</h1>
+                    <div className="card-subheading mb-3">
+                      Year: {movie.release_date}
+                    </div>
+                    <img
+                      className="card-img-top"
+                      src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+                      alt={movie.title}
+                    />
+                  </Link>
+                </div>
+              ))}
             </div>
           </div>
         </div>
