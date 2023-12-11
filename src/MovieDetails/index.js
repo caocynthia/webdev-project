@@ -36,7 +36,6 @@ function MovieItem() {
         setMovie(data);
       })
       .catch((err) => console.error(err));
-    console.log(movie);
 
     const fetchMovieReviews = async () => {
       const reviews = await reviewClient.findAllReviews();
@@ -73,11 +72,10 @@ function MovieItem() {
             ></img>
             <button className="btn btn-primary">
               {/* TODO change state based on whether its liked or not */}
-              <i class="bi bi-heart"></i> Like
-              <i class="bi bi-heart-fill"></i> Liked
+              <i className="bi bi-heart"></i> Like
+              <i className="bi bi-heart-fill"></i> Liked
             </button>
           </div>
-          {/* {console.log(movie)} */}
           <div className="movie-item-body d-flex flex-column gap-4 w-100">
             {/* Movie Info */}
             <div>
