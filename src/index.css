@@ -118,7 +118,7 @@ code {
 }
 
 .section-color {
-  background-color: rgb(252, 252, 227);
-  border-color: 2px black;
+  /* background-color: rgb(252, 252, 227); */
+  background-color: var(--neutral200);
   padding: 30px;
 }
