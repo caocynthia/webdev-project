@@ -38,46 +38,45 @@ function Home() {
 
   return (
     <div className="row">
-      <div className="col">
+      <div className="col section-color">
         <h1>Recent Movies</h1>
-        <div className="row-3">
-            <ul className="list-group">
-                {recentMovies.slice(0, 7).map((movie, index) => (
-                  <Link className="link" to={`/MovieItem/${movie.id}`} key={index}>
-                    <li className="list-group-item">
-                      <div>{movie.title}</div>
-                      <div>Popularity: {movie.popularity}</div>
-                      <div>Vote Average: {movie.vote_average}</div>
-                      <img
-                        className="movieCards"
-                        src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
-                        alt={movie.title}
-                      />
-                    </li>
-                  </Link>
-                ))}
-              </ul>
+        <div className="row">
+          {recentMovies.slice(0, 8).map((movie, index) => (
+            <div className="col-md-6 col-lg-3" key={index}>
+              <Link className="link" to={`/MovieItem/${movie.id}`}>
+                <div className="card mb-4">
+                  <h5 className="searchMovieTitle">{movie.title}</h5>
+                  <p>Popularity: {movie.popularity}</p>
+                  <p>Vote Average: {movie.vote_average}</p>
+                  <img
+                    className="card-img-top"
+                    src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+                    alt={movie.title}
+                  />
+                </div>
+              </Link>
+            </div>
+          ))}
         </div>
       </div>
-      <div className="col-2">
-        <div className="row">
+
+      <div className="col-2 section-color mx-5">
+        <div className="d-flex flex-column">
           <h1>Top 7</h1>
           <ul className="list-group">
             {topMovies.slice(0, 7).map((movie, index) => (
-              <div key={movie.id}>
-                <Link className="link" to={`/MovieItem/${movie.id}`}>
-                  <li className="list-group-item my-1" key={index}>
-                    <h6>{movie.title}</h6>
-                    <div>Popularity: {movie.popularity}</div>
-                    Vote Average: {movie.vote_average}
-                    <img
-                      className="movieCards"
-                      src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
-                      alt={movie.title}
-                    />
-                  </li>
-                </Link>
-              </div>
+              <Link className="link" to={`/MovieItem/${movie.id}`} key={index}>
+                <li className="list-group-item my-1">
+                  <h6 className="searchMovieTitle">{movie.title}</h6>
+                  <div>Popularity: {movie.popularity}</div>
+                  <div>Vote Average: {movie.vote_average}</div>
+                  <img
+                    className="movieCards"
+                    src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+                    alt={movie.title}
+                  />
+                </li>
+              </Link>
             ))}
           </ul>
         </div>
