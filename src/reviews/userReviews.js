@@ -41,6 +41,9 @@ function UserReviews() {
     <>
       <div className="d-flex flex-column gap-2">
         <h5>My Reviews</h5>
+        {reviews.length === 0 && (
+          <div>You haven't written any reviews yet!</div>
+        )}
         {reviews.map((review, index) => (
           <div key={index} className="card w-100">
             <Link to={"/MovieItem/" + review.movieId}>

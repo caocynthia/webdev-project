@@ -27,13 +27,14 @@ function UserProfile() {
 
   return (
     <>
+      {!user.firstName && !user.lastName && !user.email && (
+        <div className="mb-2">Finish setting up your profile!</div>
+      )}
       <h5>
         {user.firstName} {user.lastName}
       </h5>
       <p>{user.email}</p>
-      {!user.firstName && !user.lastName && !user.email && (
-        <div className="mb-2">Finish setting up your profile!</div>
-      )}
+
       <div className="d-flex w-100">
         <button
           onClick={() => navigate("/Profile/ProfileEdit/" + id)}
