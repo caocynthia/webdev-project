@@ -19,6 +19,21 @@ export const createReview = async (userId, movieId, review) => {
   return response.data;
 };
 
+export const updateReview = async (review) => {
+  const response = await request.put(
+    `${REVIEWS_API}/reviews/${review._id}`,
+    review
+  );
+  return response.data;
+};
+
+export const findReviewById = async (reviewId) => {
+  const response = await request.get(`${REVIEWS_API}/reviews/${reviewId}`, {
+    reviewId,
+  });
+  return response.data;
+};
+
 export const findReviewByUser = async (userId) => {
   const response = await request.get(`${REVIEWS_API}/reviews/user/${userId}`, {
     userId,
@@ -31,9 +46,7 @@ export const findReviewByMovie = async (movieId) => {
   return response.data;
 };
 
-export const deleteReview = async (userId, movieId) => {
-  const response = await request.delete(
-    `${REVIEWS_API}/users/${userId}/reviews/${movieId}`
-  );
+export const deleteReview = async (reviewId) => {
+  const response = await request.delete(`${REVIEWS_API}/reviews/${reviewId}`);
   return response.data;
 };

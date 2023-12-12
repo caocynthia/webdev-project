@@ -6,6 +6,8 @@ import { useSessionStorage } from "usehooks-ts";
 function UserReviews() {
   const [reviews, setReviews] = useState([]);
   const [user, setUser] = useSessionStorage("currentUser");
+  const [currentReview, setCurrentReview] = useState();
+  const [isEditing, setIsEditing] = useState("");
 
   useEffect(() => {
     const findReviewsByUser = async () => {
@@ -19,22 +21,35 @@ function UserReviews() {
     findReviewsByUser();
   }, [user._id]);
 
-  const options = {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMzE0NDQ1ZTJhMjFlMmRiYjUzYjY1NjQyNjE3NmY0NSIsInN1YiI6IjY1NzVlZGQ5N2EzYzUyMDE0ZTY5OWVlNCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ._1pdIxA6xMlm-YnaNEII4yImoCc0e2UB77IBohSNapk",
-    },
+  const editReview = async (reviewId) => {
+    try {
+      const r = await client.findReviewById(reviewId);
+      setCurrentReview(r);
+      setIsEditing(reviewId);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  const fetchMovies = async (movieId) => {
-    const response = await fetch(
-      `https://api.themoviedb.org/3/movie/${movieId}}?language=en-US`,
-      options
-    );
-    const data = await response.json();
-    return data;
+  const updateReview = async () => {
+    try {
+      await client.updateReview(currentReview);
+      setReviews(
+        reviews.map((r) => (r._id === currentReview._id ? currentReview : r))
+      );
+      setIsEditing("");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const deleteReview = async (reviewId) => {
+    try {
+      await client.deleteReview(reviewId);
+      setReviews(reviews.filter((r) => r._id !== reviewId));
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -44,12 +59,45 @@ function UserReviews() {
         {reviews.length === 0 && (
           <div>You haven't written any reviews yet!</div>
         )}
-        {reviews.map((review, index) => (
-          <div key={index} className="card w-100">
-            <Link to={"/MovieItem/" + review.movieId}>
-              <h6>{review.movieTitle}</h6>
-            </Link>
-            <p>{review.review}</p>
+        {reviews.map((review) => (
+          <div key={review._id} className="card w-100">
+            <div className="d-flex justify-content-between">
+              <Link to={"/MovieItem/" + review.movieId}>
+                <h6>{review.movieTitle}</h6>
+              </Link>
+              <div className="d-flex gap-2">
+                <i
+                  className="bi bi-pencil fs-6 text-primary"
+                  onClick={() => editReview(review._id)}
+                ></i>
+
+                <i
+                  className="bi bi-trash fs-6 text-primary"
+                  onClick={() => deleteReview(review._id)}
+                ></i>
+              </div>
+            </div>
+
+            {isEditing !== review._id && (
+              <div className="mt-3">{review.review}</div>
+            )}
+            {isEditing === review._id && (
+              <div className="d-flex justify-content-right gap-2 mt-3">
+                <input
+                  className="form-control"
+                  value={currentReview.review}
+                  onChange={(e) =>
+                    setCurrentReview({
+                      ...currentReview,
+                      review: e.target.value,
+                    })
+                  }
+                />
+                <button className="btn btn-primary" onClick={updateReview}>
+                  Done
+                </button>
+              </div>
+            )}
           </div>
         ))}
       </div>
