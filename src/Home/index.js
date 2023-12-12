@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 function Home() {
+  const {userId} = useParams()
   const [topMovies, setMovies] = useState([]);
   const [recentMovies, setRecent] = useState([]);
   const top = {
@@ -47,7 +48,7 @@ function Home() {
         <div className="d-flex gap-2">
           {topMovies.slice(0, 5).map((movie, index) => (
             <div className="card" key={index}>
-              <Link className="link" to={`/MovieItem/${movie.id}`}>
+              <Link className="link" to={`/MovieItem/${movie.id}/${userId}`}>
                 <h5 className="searchMovieTitle">{movie.title}</h5>
                 <p>Popularity: {movie.popularity}</p>
                 <p>Vote Average: {movie.vote_average}</p>
@@ -66,7 +67,8 @@ function Home() {
         <div className="row g-0 gap-2">
           {recentMovies.slice(0, 8).map((movie, index) => (
             <div className="card" key={index}>
-              <Link className="link" to={`/MovieItem/${movie.id}`}>
+              {console.log(userId)}
+              <Link className="link" to={`/MovieItem/${movie.id}/${userId}`}>
                 <h5 className="searchMovieTitle">{movie.title}</h5>
                 <div>
                   <p>Popularity: {movie.popularity}</p>

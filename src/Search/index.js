@@ -1,8 +1,9 @@
 import { fullTextSearch } from "../api/movie-service";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 function SearchMovie() {
+  const {userId} = useParams();
   const [searchTerm, setSearchTerm] = useState("");
   const [results, setResults] = useState([]);
 
@@ -19,8 +20,6 @@ function SearchMovie() {
     .then(response => response.json())
     .then(response => {setResults(response.results)})
     .catch(err => console.error(err));
-    // console.log(results)
-    // {setResults(response.data)}
   };
 
   return (
@@ -42,7 +41,7 @@ function SearchMovie() {
       <div className="row g-0 pt-4 gap-4">
         {results.map((movie) => (
           <div key={movie.id} className="card">
-            <Link className="link" to={`/MovieItem/${movie.id}`}>
+            <Link className="link" to={`/MovieItem/${movie.id}/${userId}`}>
               <h1 className="searchMovieTitle">{movie.title}</h1>
               <div className="card-subheading">Popularity: {movie.popularity}</div>
               <div className="card-subheading">Release Date: {movie.release_date}</div>

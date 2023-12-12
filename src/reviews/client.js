@@ -10,6 +10,7 @@ export const findAllReviews = async () => {
   const response = await request.get(`${REVIEWS_API}/reviews`);
   return response.data;
 };
+
 export const createUserReviewsMovie = (userId, movieId, review) => {
   const response = request.post(
     `${REVIEWS_API}/users/${userId}/reviews/${movieId}`,
@@ -17,6 +18,7 @@ export const createUserReviewsMovie = (userId, movieId, review) => {
   );
   return response.data;
 };
+
 export const findMoviesUserReviews = (userId) => {
   const response = request.get(`${REVIEWS_API}/users/${userId}/reviews`, {
     userId,

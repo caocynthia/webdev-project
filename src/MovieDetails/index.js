@@ -12,6 +12,7 @@ function MovieItem() {
   const makeReview = async () => {
     // id should be user id
     if (userId) {
+      {console.log("inside")}
       await reviewClient.createUserReviewsMovie(userId, movieId, review);
     }
     setReview("");
@@ -89,7 +90,7 @@ function MovieItem() {
               <div>
                 <h1>Reviews</h1>
               </div>
-              {userId && (
+              {userId !== "undefined" && (
                 <div className="review-textbox">
                   <textarea
                     value={review}
