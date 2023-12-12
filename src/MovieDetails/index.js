@@ -12,8 +12,10 @@ function MovieItem() {
   const makeReview = async () => {
     // id should be user id
     if (userId) {
-      {console.log("inside")}
-      await reviewClient.createUserReviewsMovie(userId, movieId, review);
+      {
+        console.log("inside");
+      }
+      await reviewClient.createReview(userId, movieId, review);
     }
     setReview("");
   };
@@ -79,7 +81,9 @@ function MovieItem() {
           <div className="movie-item-body d-flex flex-column gap-4 w-100">
             {/* Movie Info */}
             <div>
-              <h1>{movie.title} | {movie.runtime} min</h1>
+              <h1>
+                {movie.title} | {movie.runtime} min
+              </h1>
               <div>{movie.overview}</div>
               <br />
               <h4>Rating: {movie.vote_average}</h4>

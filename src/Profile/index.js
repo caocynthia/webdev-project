@@ -5,12 +5,12 @@ import * as reviewClient from "../reviews/client";
 import UserProfile from "./userProfile";
 import AdminProfile from "./adminProfile";
 import { useSessionStorage } from "usehooks-ts";
+import UserReviews from "../reviews/userReviews";
 
 function Profile() {
   const { id } = useParams();
   const [user, setUser] = useSessionStorage("currentUser");
   const [movies, setMovies] = useState([]);
-  // const [movie, setMovie] = useState({});
   const [reviews, setReviews] = useState([]);
 
   const navigate = useNavigate();
@@ -26,24 +26,12 @@ function Profile() {
   };
 
   useEffect(() => {
-    const fetchReviews = async () => {
-      try {
-        if (user && user._id) {
-          const reviewsData = await reviewClient.findMoviesUserReviews(user._id);
-          setReviews(reviewsData);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
     if (id) {
       const findUserById = async (id) => {
         const user = await client.findUserById(id);
         setUser(user);
       };
       findUserById(id);
-      fetchReviews();
     } else {
       const fetchAccount = async () => {
         const account = await client.account();
@@ -63,65 +51,21 @@ function Profile() {
       },
     };
 
-    const fetchMovies = () => {
+    const fetchMovies = async () => {
+      let listMovies = [];
       for (let i = 0; i < user.likedMovies.length; i++) {
-        fetch(
+        const response = await fetch(
           `https://api.themoviedb.org/3/movie/${user.likedMovies[i]}?language=en-US`,
           options
-        )
-          .then((response) => response.json())
-          .then((data) => {
-            setMovies([...movies, data]);
-          })
-          .catch((err) => console.error(err));
+        );
+        const data = await response.json();
+        listMovies.push(data);
       }
+      setMovies(listMovies);
     };
 
     fetchMovies();
   }, [user.likedMovies]);
-
-  useEffect(() => {
-    const options = {
-      method: "GET",
-      headers: {
-        accept: "application/json",
-        Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMzE0NDQ1ZTJhMjFlMmRiYjUzYjY1NjQyNjE3NmY0NSIsInN1YiI6IjY1NzVlZGQ5N2EzYzUyMDE0ZTY5OWVlNCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ._1pdIxA6xMlm-YnaNEII4yImoCc0e2UB77IBohSNapk",
-      },
-    };
-
-    const fetchMovies = () => {
-      if (user && user.likedMovies) {
-        for (let i = 0; i < user.likedMovies.length; i++) {
-          fetch(
-            `https://api.themoviedb.org/3/movie/${user.likedMovies[i]}?language=en-US`,
-            options
-          )
-            .then((response) => response.json())
-            .then((data) => {
-              setMovies((prevMovies) => [...prevMovies, data]);
-            })
-            .catch((err) => console.error(err));
-        }
-      }
-    };
-
-    if (id) {
-      const findUserById = async (id) => {
-        const user = await client.findUserById(id);
-        setUser(user);
-      };
-      findUserById(id);
-    } else {
-      const fetchAccount = async () => {
-        const account = await client.account();
-        setUser(account);
-      };
-      fetchAccount();
-    }
-
-    fetchMovies();
-  }, [id, setUser]);
 
   return (
     <>
@@ -150,8 +94,7 @@ function Profile() {
         </div>
         <div className="col d-flex flex-column gap-4">
           <div className="d-flex flex-column gap-2">
-            <h5>My Reviews</h5>
-            {console.log(reviews)}
+            <UserReviews />
           </div>
 
           <div className="d-flex flex-column gap-2 mt-4">
@@ -164,7 +107,7 @@ function Profile() {
                   <Link className="link" to={`/MovieItem/${movie.id}/${id}`}>
                     <h1 className="searchMovieTitle">{movie.title}</h1>
                     <div className="card-subheading mb-3">
-                      Year: {movie.release_date}
+                      Date: {movie.release_date}
                     </div>
                     <img
                       className="card-img-top"
