@@ -2,23 +2,16 @@ import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import * as reviewClient from "../reviews/client";
+import { useSessionStorage } from "usehooks-ts";
 
 function MovieItem() {
-  const { movieId, userId } = useParams();
-  const [movie, setMovie] = useState([]);
-  const [review, setReview] = useState("");
-  const [movieReviews, setMovieReviews] = useState([]);
+  const { movieId } = useParams();
 
-  const makeReview = async () => {
-    // id should be user id
-    if (userId) {
-      {
-        console.log("inside");
-      }
-      await reviewClient.createReview(userId, movieId, review);
-    }
-    setReview("");
-  };
+  const navigate = useNavigate();
+
+  const [movie, setMovie] = useState([]);
+
+  const [movieReviews, setMovieReviews] = useState([]);
 
   useEffect(() => {
     const options = {
@@ -30,15 +23,15 @@ function MovieItem() {
       },
     };
 
-    fetch(
-      `https://api.themoviedb.org/3/movie/${movieId}?language=en-US`,
-      options
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        setMovie(data);
-      })
-      .catch((err) => console.error(err));
+    const fetchMovies = async () => {
+      const response = await fetch(
+        `https://api.themoviedb.org/3/movie/${movieId}?language=en-US`,
+        options
+      );
+      const data = await response.json();
+      setMovie(data);
+    };
+    fetchMovies();
 
     const fetchMovieReviews = async () => {
       const reviews = await reviewClient.findAllReviews();
@@ -51,10 +44,29 @@ function MovieItem() {
     fetchMovieReviews();
   }, [movieId, movie]);
 
-  const navigate = useNavigate();
+  const [isEditing, setIsEditing] = useState(false);
+  const [user, setUser] = useSessionStorage("currentUser");
+
+  const [newReview, setNewReview] = useState({
+    userId: "",
+    username: "",
+    movieId: "",
+    movieTitle: "",
+    review: "",
+  });
+
+  const createReview = async () => {
+    try {
+      const review = await reviewClient.createReview(newReview);
+      setMovieReviews([...movieReviews, review]);
+      setIsEditing(false);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
-    <div className="container p-0">
+    <div className="">
       <div className="mb-4">
         <div
           className="text-decoration-underline text-primary"
@@ -66,11 +78,11 @@ function MovieItem() {
 
       {movie && (
         <div className="d-flex flex-column flex-md-row gap-4 w-100">
-          <div className="pr-4">
+          <div className="d-flex flex-column gap-4 pr-4">
             <img
-              className="movie-poster"
+              className="movie-poster col-12 col-sm-8 col-md-12 "
               src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
-              alt={"Poster of " + movie.Title}
+              alt={"Poster of " + movie.title}
             ></img>
             <button className="btn btn-primary">
               {/* TODO change state based on whether its liked or not */}
@@ -90,19 +102,48 @@ function MovieItem() {
             </div>
 
             {/* Reviews */}
-            <div className="d-flex flex-column gap-2">
+            <div className="d-flex flex-column mt-4">
               <div>
                 <h1>Reviews</h1>
               </div>
-              {userId !== "undefined" && (
-                <div className="review-textbox">
-                  <textarea
-                    value={review}
-                    onChange={(e) => setReview(e.target.value)}
-                  ></textarea>
-                  <button onClick={makeReview} className="btn btn-primary">
-                    + Add a Review
-                  </button>
+              {user && (
+                <div className="d-flex flex-column gap-2">
+                  {isEditing === false && (
+                    <div>
+                      <button
+                        onClick={() => setIsEditing(true)}
+                        className="btn btn-primary"
+                      >
+                        + Add a Review
+                      </button>
+                    </div>
+                  )}
+                  {isEditing === true && (
+                    <div className="d-flex flex-column justify-content-right mb-4 gap-2">
+                      <textarea
+                        className="form-control"
+                        value={newReview.review}
+                        onChange={(e) =>
+                          setNewReview({
+                            ...newReview,
+                            userId: user._id,
+                            username: user.username,
+                            movieId: movie.id,
+                            movieTitle: movie.title,
+                            review: e.target.value,
+                          })
+                        }
+                      ></textarea>
+                      <div>
+                        <button
+                          className="btn btn-primary"
+                          onClick={createReview}
+                        >
+                          Post Review
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
               <ul className="list-group">

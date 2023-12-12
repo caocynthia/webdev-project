@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import * as client from "../users/client";
-import * as reviewClient from "../reviews/client";
 import UserProfile from "./userProfile";
 import AdminProfile from "./adminProfile";
 import { useSessionStorage } from "usehooks-ts";
@@ -104,7 +103,7 @@ function Profile() {
                 "You haven't liked any movies yet!"}
               {movies.map((movie, index) => (
                 <div key={index} className="card">
-                  <Link className="link" to={`/MovieItem/${movie.id}/${id}`}>
+                  <Link className="link" to={`/MovieItem/${movie.id}`}>
                     <h1 className="searchMovieTitle">{movie.title}</h1>
                     <div className="card-subheading mb-3">
                       Date: {movie.release_date}

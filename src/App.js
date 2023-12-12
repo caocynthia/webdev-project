@@ -14,7 +14,7 @@ function App() {
       <NavBar />
       <div className="app page-padding">
         <Routes>
-          <Route path="/:userId" element={<Home/>}/>
+          <Route path="/:userId" element={<Home />} />
           <Route path="/" element={<Home />} />
           <Route path="/Search" element={<SearchMovie />} />
           <Route path="/Search/:userId" element={<SearchMovie />} />
@@ -23,7 +23,7 @@ function App() {
           <Route path="/Login" element={<LoginPage />} />
           <Route path="/Profile/ProfileEdit/:id" element={<ProfileEdit />} />
           <Route path="/Users" element={<UserTable />} />
-          <Route path="/MovieItem/:movieId/:userId" element={<MovieItem />} />
+          {/* <Route path="/MovieItem/:movieId/:userId" element={<MovieItem />} /> */}
           <Route path="/MovieItem/:movieId" element={<MovieItem />} />
         </Routes>
       </div>

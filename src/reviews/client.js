@@ -11,11 +11,8 @@ export const findAllReviews = async () => {
   return response.data;
 };
 
-export const createReview = async (userId, movieId, review) => {
-  const response = await request.post(
-    `${REVIEWS_API}/users/${userId}/reviews/${movieId}`,
-    { userId, movieId, review }
-  );
+export const createReview = async (review) => {
+  const response = await request.post(`${REVIEWS_API}/reviews`, review);
   return response.data;
 };
 
