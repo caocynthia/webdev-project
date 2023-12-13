@@ -1,5 +1,5 @@
 import { fullTextSearch } from "../api/movie-service";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
 function SearchMovie() {
@@ -17,12 +17,21 @@ function SearchMovie() {
   };
 
   const search = async () => {
-    fetch(`https://api.themoviedb.org/3/search/movie?query=${searchTerm}&include_adult=false&language=en-US&page=1`, options)
+    fetch(`https://api.themoviedb.org/3/search/movie?query=${searchTerm}&include_adult=false&language=en-US&page=${page}`, options)
+    .then(response => response.json())
+    .then(setPage(1))
+    .then(response => {setResults(response.results)})
+    .catch(err => console.error(err));
+  };
+
+  useEffect(() => {
+    fetch(`https://api.themoviedb.org/3/search/movie?query=${searchTerm}&include_adult=false&language=en-US&page=${page}`, options)
     .then(response => response.json())
     .then(response => {setResults(response.results)})
     .then(setSearched(true))
     .catch(err => console.error(err));
-  };
+  }, [page])
+
 
   const pageNumbers = () => {
     const pages = []
@@ -53,7 +62,7 @@ function SearchMovie() {
         </button>
       </div>
       <div className="row g-0 pt-4 gap-4">
-        {(searchTerm.length !== 0 && searched) && <div className="d-flex gap-5 justify-content-center">{pageNumbers()} </div>}
+        {searched && <div className="d-flex gap-5 justify-content-center">{pageNumbers()} </div>}
         
         {results.map((movie) => (
           <div key={movie.id} className="card">
