@@ -64,7 +64,7 @@ function MovieItem() {
 
     setLiked(user.likedMovies.includes(movieId));
     fetchMovies();
-  }, [movieId, user.likedMovies]);
+  }, [movieId]);
 
   return (
     <div className="">
