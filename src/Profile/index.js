@@ -10,7 +10,6 @@ function Profile() {
   const { id } = useParams();
   const [user, setUser] = useSessionStorage("currentUser");
   const [movies, setMovies] = useState([]);
-  const [reviews, setReviews] = useState([]);
 
   const navigate = useNavigate();
 
