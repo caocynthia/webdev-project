@@ -57,6 +57,7 @@ function MovieReviews() {
       const review = await reviewClient.createReview(newReview);
       setMovieReviews([...movieReviews, review]);
       setIsEditing(false);
+      setNewReview({ ...newReview, review: "" });
     } catch (err) {
       console.log(err);
     }
