@@ -13,32 +13,31 @@ code {
 }
 
 :root {
-  /* grays */
-  --neutral50: #F5F5F5;
-  --neutral100: #EEEEEE;
-  --neutral200: #E4E4E4;
-  --neutral300: #D0D0D0;
-  --neutral400: #9F9F9F;
-  --neutral500: #707070;
+  --bs-body-bg: rgb(43, 42, 42);
+  --bs-body-color: white;
+}
 
-  /* accent color */
-  --accent50: #FAEBEE;
-  --accent100: #F5D6DE;
-  --accent200: #ECAEBD;
-  --accent300: #E2859B;
-  --accent400: #D95D7A;
-  --accent500: #CF3459;
+h1, h2, h3, h4, h5, h6, body, a, p {
+  color: white;
+}
+
+a {
+  text-decoration: #0d6efd underline;
+}
+
+.movieTextDetails {
+  color: grey;
 }
 
 .navbar {
-  background: white;
+  background: rgb(31, 31, 31);
   padding: 0 64px 0 64px !important;
   height: 60px;
   align-items: center;
 }
 
 .navbar a {
-  color: black;
+  color: white;
   text-decoration: none;
 }
 
@@ -48,7 +47,7 @@ code {
 
 .app {
   min-height: 100vh;
-  background-color: var(--neutral50);
+  background-color: rgb(43, 42, 42);
 }
 
 #search-addon {
@@ -89,12 +88,18 @@ code {
 }
 
 .card {
-  width: 300px;
+  width: 250px;
+  background-color: rgb(31, 31, 31);
+  color: white;
   padding: 20px;
 }
 
+.card h5, .card h1 {
+  color: white;
+}
+
 .card-subheading {
-  color: var(--neutral400);
+  color: white;
 }
 
 .review-card {
@@ -117,8 +122,37 @@ code {
   align-items: center;
 }
 
-.section-color {
-  /* background-color: rgb(252, 252, 227); */
-  background-color: var(--neutral200);
-  padding: 30px;
+.current-page-num {
+  background-color: grey;
+  color: white;
+  border-radius: 50%;
+  font-size:20px;
+  width: 40px; 
+  height: 40px; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.page-num {
+  border-radius: 50%;
+  font-size:20px;
+  width: 40px; 
+  height: 40px; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+td, th {
+  color: white !important;
+}
+
+.form-control::placeholder {
+  color: gray;
+}
+
+.site-name {
+  font-weight: bold;
+  font-size: 20px;
 }

@@ -10,26 +10,40 @@ export const findAllReviews = async () => {
   const response = await request.get(`${REVIEWS_API}/reviews`);
   return response.data;
 };
-export const createUserReviewsMovie = (userId, movieId, review) => {
-  const response = request.post(
-    `${REVIEWS_API}/users/${userId}/reviews/${movieId}`,
-    { userId, movieId, review }
+
+export const createReview = async (review) => {
+  const response = await request.post(`${REVIEWS_API}/reviews`, review);
+  return response.data;
+};
+
+export const updateReview = async (review) => {
+  const response = await request.put(
+    `${REVIEWS_API}/reviews/${review._id}`,
+    review
   );
   return response.data;
 };
-export const findMoviesUserReviews = (userId) => {
-  const response = request.get(`${REVIEWS_API}/users/${userId}/reviews`, {
+
+export const findReviewById = async (reviewId) => {
+  const response = await request.get(`${REVIEWS_API}/reviews/${reviewId}`, {
+    reviewId,
+  });
+  return response.data;
+};
+
+export const findReviewByUser = async (userId) => {
+  const response = await request.get(`${REVIEWS_API}/reviews/user/${userId}`, {
     userId,
   });
   return response.data;
 };
-export const findUsersWhoReviewsMovie = (movieId) => {
-  const response = request.get(`${REVIEWS_API}/movies/${movieId}/reviews`);
+
+export const findReviewByMovie = async (movieId) => {
+  const response = await request.get(`${REVIEWS_API}/reviews/movie/${movieId}`);
   return response.data;
 };
-export const deleteUserReview = (userId, movieId) => {
-  const response = request.delete(
-    `${REVIEWS_API}/users/${userId}/reviews/${movieId}`
-  );
+
+export const deleteReview = async (reviewId) => {
+  const response = await request.delete(`${REVIEWS_API}/reviews/${reviewId}`);
   return response.data;
 };

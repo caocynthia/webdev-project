@@ -27,6 +27,9 @@ function AdminProfile() {
 
   return (
     <>
+      {!user.firstName && !user.lastName && !user.email && (
+        <div className="mb-2">Finish setting up your profile!</div>
+      )}
       <h5>
         {user.firstName} {user.lastName}
       </h5>

@@ -1,21 +1,47 @@
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import * as reviewClient from "../reviews/client";
+import * as client from "../users/client";
+import { useSessionStorage } from "usehooks-ts";
+import MovieReviews from "./movieReviews";
 
 function MovieItem() {
-  const { movieId, userId } = useParams();
-  const [movie, setMovie] = useState([]);
-  const [review, setReview] = useState("");
-  const [movieReviews, setMovieReviews] = useState([]);
+  const { movieId } = useParams();
+  const [user, setUser] = useSessionStorage("currentUser");
+  const navigate = useNavigate();
 
-  const makeReview = async () => {
-    // id should be user id
-    if (userId) {
-      await reviewClient.createUserReviewsMovie(userId, movieId, review);
+  const [movie, setMovie] = useState([]);
+
+  const handleLike = async () => {
+    try {
+      const likedMovies = user.likedMovies;
+      likedMovies.push(movieId);
+      setUser({ ...user, likedMovies: likedMovies });
+      setLiked(true);
+      await client.updateUser(user);
+    } catch (error) {
+      console.error("Error liking movie:", error);
     }
-    setReview("");
   };
+
+  const handleUnlike = async () => {
+    try {
+      const updatedLikedMovies = user.likedMovies.filter(
+        (id) => id !== movieId
+      );
+      await client.updateUser({ ...user, likedMovies: updatedLikedMovies });
+
+      setUser({
+        ...user,
+        likedMovies: updatedLikedMovies,
+      });
+      setLiked(false);
+    } catch (error) {
+      console.error("Error unliking movie:", error);
+    }
+  };
+
+  const [liked, setLiked] = useState(false);
 
   useEffect(() => {
     const options = {
@@ -27,31 +53,26 @@ function MovieItem() {
       },
     };
 
-    fetch(
-      `https://api.themoviedb.org/3/movie/${movieId}?language=en-US`,
-      options
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        setMovie(data);
-      })
-      .catch((err) => console.error(err));
-
-    const fetchMovieReviews = async () => {
-      const reviews = await reviewClient.findAllReviews();
-      const filteredReviews = reviews.filter(
-        (review) => review.movieId === movieId
+    const fetchMovies = async () => {
+      const response = await fetch(
+        `https://api.themoviedb.org/3/movie/${movieId}?language=en-US`,
+        options
       );
-      setMovieReviews(filteredReviews);
+      const data = await response.json();
+      setMovie(data);
     };
 
-    fetchMovieReviews();
-  }, [movieId, movie]);
+    try {
+      user.likedMovies.includes(movieId);
+    } catch (err) {
+      console.log(err);
+    }
 
-  const navigate = useNavigate();
+    fetchMovies();
+  }, [movieId]);
 
   return (
-    <div className="container p-0">
+    <div className="">
       <div className="mb-4">
         <div
           className="text-decoration-underline text-primary"
@@ -63,55 +84,40 @@ function MovieItem() {
 
       {movie && (
         <div className="d-flex flex-column flex-md-row gap-4 w-100">
-          <div className="pr-4">
+          <div className="d-flex flex-column gap-4 pr-4">
             <img
-              className="movie-poster"
+              className="movie-poster col-12 col-sm-8 col-md-12 "
               src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
-              alt={"Poster of " + movie.Title}
+              alt={"Poster of " + movie.title}
             ></img>
-            <button className="btn btn-primary">
-              {/* TODO change state based on whether its liked or not */}
-              <i className="bi bi-heart"></i> Like
-              <i className="bi bi-heart-fill"></i> Liked
-            </button>
+
+            {user && (
+              <div>
+                {liked ? (
+                  // { liked ?
+                  <button className="btn btn-primary" onClick={handleUnlike}>
+                    <i className="bi bi-heart-fill"></i> Liked
+                  </button>
+                ) : (
+                  <button className="btn btn-primary" onClick={handleLike}>
+                    <i className="bi bi-heart"></i> Like
+                  </button>
+                )}
+              </div>
+            )}
           </div>
           <div className="movie-item-body d-flex flex-column gap-4 w-100">
             {/* Movie Info */}
             <div>
-              <h1>{movie.title} | {movie.runtime} min</h1>
+              <h1>
+                {movie.title} | {movie.runtime} min
+              </h1>
               <div>{movie.overview}</div>
               <br />
               <h4>Rating: {movie.vote_average}</h4>
             </div>
 
-            {/* Reviews */}
-            <div className="d-flex flex-column gap-2">
-              <div>
-                <h1>Reviews</h1>
-              </div>
-              {userId && (
-                <div className="review-textbox">
-                  <textarea
-                    value={review}
-                    onChange={(e) => setReview(e.target.value)}
-                  ></textarea>
-                  <button onClick={makeReview} className="btn btn-primary">
-                    + Add a Review
-                  </button>
-                </div>
-              )}
-              <ul className="list-group">
-                {movieReviews.map((review, index) => (
-                  <li
-                    key={index}
-                    className="list-group-item card review-card row mt-2 gap-4 g-0"
-                  >
-                    <h3>{review.username}</h3>
-                    <div>{review.review}</div>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <MovieReviews />
           </div>
         </div>
       )}

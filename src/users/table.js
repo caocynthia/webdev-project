@@ -108,7 +108,7 @@ function UserTable() {
             </td>
             <td className="d-flex align-items-center">
               <div className="d-flex flex-column align-items-center">
-                <button onClick={updateUser} className="btn btn-link">
+                <button onClick={updateUser} className="btn btn-primary">
                   Update
                 </button>
               </div>

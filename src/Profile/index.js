@@ -4,12 +4,12 @@ import * as client from "../users/client";
 import UserProfile from "./userProfile";
 import AdminProfile from "./adminProfile";
 import { useSessionStorage } from "usehooks-ts";
+import UserReviews from "../reviews/userReviews";
 
 function Profile() {
   const { id } = useParams();
   const [user, setUser] = useSessionStorage("currentUser");
   const [movies, setMovies] = useState([]);
-  // const [movie, setMovie] = useState({});
 
   const navigate = useNavigate();
 
@@ -49,18 +49,17 @@ function Profile() {
       },
     };
 
-    const fetchMovies = () => {
+    const fetchMovies = async () => {
+      let listMovies = [];
       for (let i = 0; i < user.likedMovies.length; i++) {
-        fetch(
+        const response = await fetch(
           `https://api.themoviedb.org/3/movie/${user.likedMovies[i]}?language=en-US`,
           options
-        )
-          .then((response) => response.json())
-          .then((data) => {
-            setMovies([...movies, data]);
-          })
-          .catch((err) => console.error(err));
+        );
+        const data = await response.json();
+        listMovies.push(data);
       }
+      setMovies(listMovies);
     };
 
     fetchMovies();
@@ -93,22 +92,20 @@ function Profile() {
         </div>
         <div className="col d-flex flex-column gap-4">
           <div className="d-flex flex-column gap-2">
-            <h5>My Reviews</h5>
-            <div className="thing">item here</div>
-            <div className="thing">item here</div>
+            <UserReviews />
           </div>
 
           <div className="d-flex flex-column gap-2 mt-4">
             <h5>Liked Movies</h5>
-            <div className="d-flex gap-2">
+            <div className="row g-0 gap-2">
               {user.likedMovies.length === 0 &&
                 "You haven't liked any movies yet!"}
               {movies.map((movie, index) => (
                 <div key={index} className="card">
                   <Link className="link" to={`/MovieItem/${movie.id}`}>
-                    <h1 className="searchMovieTitle">{movie.title}</h1>
+                    <h5 className="searchMovieTitle">{movie.title}</h5>
                     <div className="card-subheading mb-3">
-                      Year: {movie.release_date}
+                      Date: {movie.release_date}
                     </div>
                     <img
                       className="card-img-top"
