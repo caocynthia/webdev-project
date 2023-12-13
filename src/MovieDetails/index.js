@@ -41,7 +41,7 @@ function MovieItem() {
     }
   };
 
-  const [liked, setLiked] = useState(false);
+  const [liked, setLiked] = useState(user.likedMovies.includes(movieId));
 
   useEffect(() => {
     const options = {
@@ -62,7 +62,6 @@ function MovieItem() {
       setMovie(data);
     };
 
-    setLiked(user.likedMovies.includes(movieId));
     fetchMovies();
   }, [movieId]);
 
