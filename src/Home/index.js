@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 function Home() {
-  const {userId} = useParams()
+  const { userId } = useParams();
   const [topMovies, setMovies] = useState([]);
   const [recentMovies, setRecent] = useState([]);
   const top = {
@@ -22,23 +22,25 @@ function Home() {
   };
 
   useEffect(() => {
-    fetch(
-      "https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1",
-      top
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        setMovies(data.results);
-      })
-      .catch((err) => console.error(err));
+    const fetchTopMovies = async () => {
+      const response = await fetch(
+        "https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1",
+        top
+      );
+      const data = await response.json();
+      setMovies(data.results);
+    };
+    fetchTopMovies();
 
-    fetch(
-      "https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1",
-      recent
-    )
-      .then((response) => response.json())
-      .then((response) => setRecent(response.results))
-      .catch((err) => console.error(err));
+    const fetchRecentMovies = async () => {
+      const response = await fetch(
+        "https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1",
+        recent
+      );
+      const data = await response.json();
+      setRecent(data.results);
+    };
+    fetchRecentMovies();
   }, []);
 
   return (
@@ -48,7 +50,7 @@ function Home() {
         <div className="d-flex gap-2">
           {topMovies.slice(0, 5).map((movie, index) => (
             <div className="card" key={index}>
-              <Link className="link" to={`/MovieItem/${movie.id}/${userId}`}>
+              <Link className="link" to={`/MovieItem/${movie.id}`}>
                 <h5 className="searchMovieTitle">{movie.title}</h5>
                 <p>Popularity: {movie.popularity}</p>
                 <p>Vote Average: {movie.vote_average}</p>
@@ -68,7 +70,7 @@ function Home() {
           {recentMovies.slice(0, 8).map((movie, index) => (
             <div className="card" key={index}>
               {console.log(userId)}
-              <Link className="link" to={`/MovieItem/${movie.id}/${userId}`}>
+              <Link className="link" to={`/MovieItem/${movie.id}`}>
                 <h5 className="searchMovieTitle">{movie.title}</h5>
                 <div>
                   <p>Popularity: {movie.popularity}</p>
