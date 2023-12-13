@@ -19,8 +19,12 @@ function MovieItem() {
   // const liked = user.likedMovies.includes(movieId);
   // console.log(user.likedMovies);
 
-  // const handleLike = async () => {
-  //   try {
+  const handleLike = async () => {
+    try {
+      const updatedLikedMovies = 
+      user.likedMovies.push(movieId);
+      setUser({...user, likedMovies: updatedLikedMovies})
+      const response = await client.updateUser(user);
   //     const response = await fetch(
   //       `/api/users/${user._id}/likeMovie/${movieId}`,
   //       {
@@ -47,15 +51,13 @@ function MovieItem() {
   //       );
   //       // Handle error accordingly
   //     }
-  //   } catch (error) {
-  //     console.error("Error liking movie:", error);
-  //   }
-  // };
+    } catch (error) {
+      console.error("Error liking movie:", error);
+    }
+  };
 
   const handleUnlike = async () => {
     try {
-      // const response = await fetch(
-      //   `/api/users/${user._id}/unlikeMovie/${movieId}`,
       console.log(movieId);
       const updatedLikedMovies = 
       user.likedMovies.filter(
@@ -106,15 +108,9 @@ function MovieItem() {
   };
 
   useEffect(() => {
-    console.log(movieId);
-
     fetchMovies();
     fetchMovieReviews();
-    // fetchLikedMovies();
-    // }, [movieId, movie, user.likedMovies]);
   }, []);
-
-
 
   const fetchMovies = async () => {
     const response = await fetch(
@@ -134,45 +130,6 @@ function MovieItem() {
     );
     setMovieReviews(filteredReviews);
   };
-
-  // const fetchLikedMovies = async () => {
-  //   let listMovies = [];
-  //   console.log(user.likedMovies);
-  //   for (let i = 0; i < user.likedMovies.length; i++) {
-  //     const response = await fetch(
-  //       `https://api.themoviedb.org/3/movie/${user.likedMovies[i]}?language=en-US`,
-  //       options
-  //     );
-  //     const data = await response.json();
-  //     listMovies.push(data);
-  //   }
-  //   setLiked(listMovies);
-  // };
-
-  // useEffect(() => {
-  //   const options = {
-  //     method: "GET",
-  //     headers: {
-  //       accept: "application/json",
-  //       Authorization:
-  //         "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMzE0NDQ1ZTJhMjFlMmRiYjUzYjY1NjQyNjE3NmY0NSIsInN1YiI6IjY1NzVlZGQ5N2EzYzUyMDE0ZTY5OWVlNCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ._1pdIxA6xMlm-YnaNEII4yImoCc0e2UB77IBohSNapk",
-  //     },
-  //   };
-
-  //   const fetchLikedMovies = async () => {
-  //     let listMovies = [];
-  //     for (let i = 0; i < user.likedMovies.length; i++) {
-  //       const response = await fetch(
-  //         `https://api.themoviedb.org/3/movie/${user.likedMovies[i]}?language=en-US`,
-  //         options
-  //       );
-  //       const data = await response.json();
-  //       listMovies.push(data);
-  //     }
-  //     setLiked(listMovies);
-  //   };
-  //   fetchLikedMovies();
-  // }, [user.likedMovies]);
 
   const [isEditing, setIsEditing] = useState(false);
 
@@ -227,7 +184,7 @@ function MovieItem() {
                 :
                 <button
                   className="btn btn-primary"
-                  onClick={console.log("like")}
+                  onClick={handleLike}
                 >
                   <i className="bi bi-heart"></i>Like
                 </button>}
