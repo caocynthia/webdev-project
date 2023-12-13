@@ -2,6 +2,7 @@ import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import * as reviewClient from "../reviews/client";
+import * as client from "../users/client";
 import { useSessionStorage } from "usehooks-ts";
 
 function MovieItem() {
@@ -14,7 +15,9 @@ function MovieItem() {
 
   const [movieReviews, setMovieReviews] = useState([]);
 
-  const [liked, setLiked] = useState([]);
+  // const [liked, setLiked] = useState(user.likedMovies.includes(movieId));
+  // const liked = user.likedMovies.includes(movieId);
+  // console.log(user.likedMovies);
 
   // const handleLike = async () => {
   //   try {
@@ -49,95 +52,127 @@ function MovieItem() {
   //   }
   // };
 
-  // const handleUnlike = async () => {
-  //   try {
+  const handleUnlike = async () => {
+    try {
+      // const response = await fetch(
+      //   `/api/users/${user._id}/unlikeMovie/${movieId}`,
+      console.log(movieId);
+      const updatedLikedMovies = 
+      user.likedMovies.filter(
+        (id) => id !== movieId
+      );
+      setUser({...user, likedMovies: updatedLikedMovies})
+      const response = await client.updateUser(user);
+      //   {
+      //     method: "DELETE",
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //     },
+      //   }
+      // );
+
+      // if (response.ok) {
+      //   // Update likedMovies array in user state
+        // const updatedLikedMovies = user.likedMovies.filter(
+        //   (id) => id !== movieId
+        // );
+        // setUser((user) => ({
+        //   ...user,
+        //   likedMovies: updatedLikedMovies,
+        // }));
+        // console.log(user);
+
+      //   // setLiked(false);
+      //   liked = false;
+      // } else {
+      //   console.error(
+      //     "Failed to unlike movie. Server returned:",
+      //     response.status
+      //   );
+      //   // Handle error accordingly
+      // }
+    } catch (error) {
+      console.error("Error unliking movie:", error);
+    }
+  };
+
+  const options = {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization:
+        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMzE0NDQ1ZTJhMjFlMmRiYjUzYjY1NjQyNjE3NmY0NSIsInN1YiI6IjY1NzVlZGQ5N2EzYzUyMDE0ZTY5OWVlNCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ._1pdIxA6xMlm-YnaNEII4yImoCc0e2UB77IBohSNapk",
+    },
+  };
+
+  useEffect(() => {
+    console.log(movieId);
+
+    fetchMovies();
+    fetchMovieReviews();
+    // fetchLikedMovies();
+    // }, [movieId, movie, user.likedMovies]);
+  }, []);
+
+
+
+  const fetchMovies = async () => {
+    const response = await fetch(
+      `https://api.themoviedb.org/3/movie/${movieId}?language=en-US`,
+      options
+    );
+    const data = await response.json();
+    console.log(data);
+    setMovie(data);
+  };
+
+  const fetchMovieReviews = async () => {
+    console.log("movie");
+    const reviews = await reviewClient.findAllReviews();
+    const filteredReviews = reviews.filter(
+      (review) => review.movieId === movieId
+    );
+    setMovieReviews(filteredReviews);
+  };
+
+  // const fetchLikedMovies = async () => {
+  //   let listMovies = [];
+  //   console.log(user.likedMovies);
+  //   for (let i = 0; i < user.likedMovies.length; i++) {
   //     const response = await fetch(
-  //       `/api/users/${user._id}/unlikeMovie/${movieId}`,
-  //       {
-  //         method: "DELETE",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //       }
+  //       `https://api.themoviedb.org/3/movie/${user.likedMovies[i]}?language=en-US`,
+  //       options
   //     );
-
-  //     if (response.ok) {
-  //       // Update likedMovies array in user state
-  //       const updatedLikedMovies = user.likedMovies.filter(
-  //         (id) => id !== movieId
-  //       );
-  //       setUser((prevUser) => ({
-  //         ...prevUser,
-  //         likedMovies: updatedLikedMovies,
-  //       }));
-
-  //       setLiked(false);
-  //     } else {
-  //       console.error(
-  //         "Failed to unlike movie. Server returned:",
-  //         response.status
-  //       );
-  //       // Handle error accordingly
-  //     }
-  //   } catch (error) {
-  //     console.error("Error unliking movie:", error);
+  //     const data = await response.json();
+  //     listMovies.push(data);
   //   }
+  //   setLiked(listMovies);
   // };
 
-  useEffect(() => {
-    const options = {
-      method: "GET",
-      headers: {
-        accept: "application/json",
-        Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMzE0NDQ1ZTJhMjFlMmRiYjUzYjY1NjQyNjE3NmY0NSIsInN1YiI6IjY1NzVlZGQ5N2EzYzUyMDE0ZTY5OWVlNCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ._1pdIxA6xMlm-YnaNEII4yImoCc0e2UB77IBohSNapk",
-      },
-    };
+  // useEffect(() => {
+  //   const options = {
+  //     method: "GET",
+  //     headers: {
+  //       accept: "application/json",
+  //       Authorization:
+  //         "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMzE0NDQ1ZTJhMjFlMmRiYjUzYjY1NjQyNjE3NmY0NSIsInN1YiI6IjY1NzVlZGQ5N2EzYzUyMDE0ZTY5OWVlNCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ._1pdIxA6xMlm-YnaNEII4yImoCc0e2UB77IBohSNapk",
+  //     },
+  //   };
 
-    const fetchMovies = async () => {
-      const response = await fetch(
-        `https://api.themoviedb.org/3/movie/${movieId}?language=en-US`,
-        options
-      );
-      const data = await response.json();
-      setMovie(data);
-    };
-    fetchMovies();
-
-    const fetchMovieReviews = async () => {
-      const reviews = await reviewClient.findAllReviews();
-      const filteredReviews = reviews.filter(
-        (review) => review.movieId === movieId
-      );
-      setMovieReviews(filteredReviews);
-    };
-    fetchMovieReviews();
-  }, [movieId, movie]);
-
-  useEffect(() => {
-    const options = {
-      method: "GET",
-      headers: {
-        accept: "application/json",
-        Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMzE0NDQ1ZTJhMjFlMmRiYjUzYjY1NjQyNjE3NmY0NSIsInN1YiI6IjY1NzVlZGQ5N2EzYzUyMDE0ZTY5OWVlNCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ._1pdIxA6xMlm-YnaNEII4yImoCc0e2UB77IBohSNapk",
-      },
-    };
-
-    const fetchLikedMovies = async () => {
-      let listMovies = [];
-      for (let i = 0; i < user.likedMovies.length; i++) {
-        const response = await fetch(
-          `https://api.themoviedb.org/3/movie/${user.likedMovies[i]}?language=en-US`,
-          options
-        );
-        const data = await response.json();
-        listMovies.push(data);
-      }
-      setLiked(listMovies);
-    };
-    fetchLikedMovies();
-  }, [user.likedMovies]);
+  //   const fetchLikedMovies = async () => {
+  //     let listMovies = [];
+  //     for (let i = 0; i < user.likedMovies.length; i++) {
+  //       const response = await fetch(
+  //         `https://api.themoviedb.org/3/movie/${user.likedMovies[i]}?language=en-US`,
+  //         options
+  //       );
+  //       const data = await response.json();
+  //       listMovies.push(data);
+  //     }
+  //     setLiked(listMovies);
+  //   };
+  //   fetchLikedMovies();
+  // }, [user.likedMovies]);
 
   const [isEditing, setIsEditing] = useState(false);
 
@@ -178,20 +213,24 @@ function MovieItem() {
               src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
               alt={"Poster of " + movie.title}
             ></img>
-            {user && (
+
+            {user && (              
               <div>
+                { user.likedMovies.includes(movieId) ? 
+                // { liked ? 
                 <button
                   className="btn btn-primary"
-                  onClick={console.log("unlike")}
+                onClick={handleUnlike}
                 >
                   <i className="bi bi-heart-fill"></i>Liked
-                </button>
-                {/* <button
+                </button> 
+                :
+                <button
                   className="btn btn-primary"
                   onClick={console.log("like")}
                 >
                   <i className="bi bi-heart"></i>Like
-                </button> */}
+                </button>}
               </div>
             )}
           </div>
