@@ -90,7 +90,7 @@ function SearchMovie() {
           Search
         </button>
       </div>
-      <div className="row g-0 pt-4 gap-4">
+      <div className="row g-0 pt-4 gap-2">
         {searched && (
           <div className="d-flex gap-5 justify-content-center">
             {pageNumbers()}{" "}

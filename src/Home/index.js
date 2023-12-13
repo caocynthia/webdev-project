@@ -68,7 +68,7 @@ function Home() {
             options
           );
           const data = await response.json();
-          listMovies.push(data);
+          listMovies.unshift(data);
         }
         setLikedMovies(listMovies);
       } catch (err) {
@@ -83,11 +83,11 @@ function Home() {
     <div className="d-flex flex-column gap-4">
       {user && (
         <div className="d-flex flex-column gap-2 mb-4">
-          <h1>Liked Movies</h1>
+          <h1>Recently Liked Movies</h1>
           <div className="row g-0 gap-2">
             {user.likedMovies.length === 0 &&
               "You haven't liked any movies yet!"}
-            {likedMovies.map((movie, index) => (
+            {likedMovies.slice(0, 5).map((movie, index) => (
               <div key={index} className="card">
                 <Link className="link" to={`/MovieItem/${movie.id}`}>
                   <h5 className="searchMovieTitle">{movie.title}</h5>
