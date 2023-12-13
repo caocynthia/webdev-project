@@ -8,7 +8,6 @@ import { useSessionStorage } from "usehooks-ts";
 function MovieItem() {
   const { movieId } = useParams();
   const [user, setUser] = useSessionStorage("currentUser");
-
   const navigate = useNavigate();
 
   const [movie, setMovie] = useState([]);
@@ -17,7 +16,6 @@ function MovieItem() {
 
   // const [liked, setLiked] = useState(user.likedMovies.includes(movieId));
   // const liked = user.likedMovies.includes(movieId);
-  // console.log(user.likedMovies);
 
   const handleLike = async () => {
     try {
@@ -25,32 +23,6 @@ function MovieItem() {
         user.likedMovies.push(movieId);
       setUser({ ...user, likedMovies: updatedLikedMovies })
       const response = await client.updateUser(user);
-      //     const response = await fetch(
-      //       `/api/users/${user._id}/likeMovie/${movieId}`,
-      //       {
-      //         method: "POST",
-      //         headers: {
-      //           "Content-Type": "application/json",
-      //         },
-      //       }
-      //     );
-
-      //     if (response.ok) {
-      //       // Update likedMovies array in user state
-      //       const updatedLikedMovies = [...user.likedMovies, movieId];
-      //       setUser((prevUser) => ({
-      //         ...prevUser,
-      //         likedMovies: updatedLikedMovies,
-      //       }));
-
-      //       setLiked(true);
-      //     } else {
-      //       console.error(
-      //         "Failed to like movie. Server returned:",
-      //         response.status
-      //       );
-      //       // Handle error accordingly
-      //     }
     } catch (error) {
       console.error("Error liking movie:", error);
     }
@@ -62,9 +34,9 @@ function MovieItem() {
       const updatedUser = await client.updateUser({ ...user, likedMovies: updatedLikedMovies });
 
       setUser(updatedUser);
-      console.log({ ...user, likedMovies: updatedLikedMovies });
-      console.log(user);
-     
+      // console.log({ ...user, likedMovies: updatedLikedMovies });
+      // console.log(user);
+
     } catch (error) {
       console.error("Error unliking movie:", error);
     }
@@ -79,11 +51,6 @@ function MovieItem() {
     },
   };
 
-  useEffect(() => {
-    fetchMovies();
-    fetchMovieReviews();
-  }, []);
-
   const fetchMovies = async () => {
     const response = await fetch(
       `https://api.themoviedb.org/3/movie/${movieId}?language=en-US`,
@@ -95,13 +62,17 @@ function MovieItem() {
   };
 
   const fetchMovieReviews = async () => {
-    console.log("movie");
     const reviews = await reviewClient.findAllReviews();
     const filteredReviews = reviews.filter(
       (review) => review.movieId === movieId
     );
     setMovieReviews(filteredReviews);
   };
+
+  useEffect(() => {
+    fetchMovies();
+    fetchMovieReviews();
+  }, []);
 
   const [isEditing, setIsEditing] = useState(false);
 
@@ -162,6 +133,7 @@ function MovieItem() {
                   </button>}
               </div>
             )}
+           
           </div>
           <div className="movie-item-body d-flex flex-column gap-4 w-100">
             {/* Movie Info */}
