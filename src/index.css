@@ -122,3 +122,25 @@ code {
   background-color: var(--neutral200);
   padding: 30px;
 }
+
+.current-page-num {
+  background-color: grey;
+  color: white;
+  border-radius: 50%;
+  font-size:20px;
+  width: 40px; 
+  height: 40px; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.page-num {
+  border-radius: 50%;
+  font-size:20px;
+  width: 40px; 
+  height: 40px; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

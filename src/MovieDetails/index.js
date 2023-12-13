@@ -259,6 +259,14 @@ function MovieItem() {
                   >
                     <h3>{review.username}</h3>
                     <div>{review.review}</div>
+                    {user.role === "MODERATOR" && 
+                      <button>
+                        <i
+                          className="bi bi-trash fs-6 text-primary"
+                          onClick={() => reviewClient.deleteReview(review._id)}
+                        ></i>
+                      </button>
+                    }
                   </li>
                 ))}
               </ul>

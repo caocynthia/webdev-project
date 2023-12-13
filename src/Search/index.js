@@ -6,7 +6,8 @@ function SearchMovie() {
   const {userId} = useParams();
   const [searchTerm, setSearchTerm] = useState("");
   const [results, setResults] = useState([]);
-
+  const [page, setPage] = useState(1);
+  const [searched, setSearched] = useState(false);
   const options = {
     method: 'GET',
     headers: {
@@ -19,7 +20,20 @@ function SearchMovie() {
     fetch(`https://api.themoviedb.org/3/search/movie?query=${searchTerm}&include_adult=false&language=en-US&page=1`, options)
     .then(response => response.json())
     .then(response => {setResults(response.results)})
+    .then(setSearched(true))
     .catch(err => console.error(err));
+  };
+
+  const pageNumbers = () => {
+    const pages = []
+      
+    for (let i = 1; i <= 7; i++) {
+      pages.push(
+        i === page? <Link className="link current-page-num" key={i} onClick={() => setPage(i)}>{i}</Link>
+        : <Link className="link page-num" key={i} onClick={() => setPage(i)}>{i}</Link>
+      );
+    }
+    return pages;
   };
 
   return (
@@ -39,6 +53,8 @@ function SearchMovie() {
         </button>
       </div>
       <div className="row g-0 pt-4 gap-4">
+        {(searchTerm.length !== 0 && searched) && <div className="d-flex gap-5 justify-content-center">{pageNumbers()} </div>}
+        
         {results.map((movie) => (
           <div key={movie.id} className="card">
             <Link className="link" to={`/MovieItem/${movie.id}/${userId}`}>
@@ -53,6 +69,7 @@ function SearchMovie() {
             </Link>
           </div>
         ))}
+        
       </div>
     </div>
   );
