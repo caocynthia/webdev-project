@@ -65,9 +65,11 @@ function Home() {
         </div>
       </div>
       <div className="section-color col">
-        <h1 className="mb-4">Recent Movies</h1>
+        <Link className="link" to="/RecentMovies">
+          <h1 className="mb-4">Recent Movies</h1>
+        </Link>
         <div className="row g-0 gap-2">
-          {recentMovies.slice(0, 8).map((movie, index) => (
+          {recentMovies.slice(0, 10).map((movie, index) => (
             <div className="card" key={index}>
               {console.log(userId)}
               <Link className="link" to={`/MovieItem/${movie.id}`}>

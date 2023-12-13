@@ -7,6 +7,7 @@ import NavBar from "./Navbar";
 import SearchMovie from "./Search";
 import LoginPage from "./LoginPage";
 import UserTable from "./users/table";
+import RecentMovies from "./RecentMovies";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="/Users" element={<UserTable />} />
           {/* <Route path="/MovieItem/:movieId/:userId" element={<MovieItem />} /> */}
           <Route path="/MovieItem/:movieId" element={<MovieItem />} />
+          <Route path="/RecentMovies" element={<RecentMovies />} />
         </Routes>
       </div>
     </>
