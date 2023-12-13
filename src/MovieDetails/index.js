@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import * as reviewClient from "../reviews/client";
 import * as client from "../users/client";
 import { useSessionStorage } from "usehooks-ts";
+import MovieReviews from "./movieReviews";
 
 function MovieItem() {
   const { movieId } = useParams();
@@ -19,9 +20,8 @@ function MovieItem() {
 
   const handleLike = async () => {
     try {
-      const updatedLikedMovies =
-        user.likedMovies.push(movieId);
-      setUser({ ...user, likedMovies: updatedLikedMovies })
+      const updatedLikedMovies = user.likedMovies.push(movieId);
+      setUser({ ...user, likedMovies: updatedLikedMovies });
       const response = await client.updateUser(user);
     } catch (error) {
       console.error("Error liking movie:", error);
@@ -30,13 +30,17 @@ function MovieItem() {
 
   const handleUnlike = async () => {
     try {
-      const updatedLikedMovies = user.likedMovies.filter((id) => id !== movieId);
-      const updatedUser = await client.updateUser({ ...user, likedMovies: updatedLikedMovies });
+      const updatedLikedMovies = user.likedMovies.filter(
+        (id) => id !== movieId
+      );
+      const updatedUser = await client.updateUser({
+        ...user,
+        likedMovies: updatedLikedMovies,
+      });
 
       setUser(updatedUser);
       // console.log({ ...user, likedMovies: updatedLikedMovies });
       // console.log(user);
-
     } catch (error) {
       console.error("Error unliking movie:", error);
     }
@@ -116,24 +120,18 @@ function MovieItem() {
 
             {user && (
               <div>
-                {user.likedMovies.includes(movieId) ?
-                  // { liked ? 
-                  <button
-                    className="btn btn-primary"
-                    onClick={handleUnlike}
-                  >
+                {user.likedMovies.includes(movieId) ? (
+                  // { liked ?
+                  <button className="btn btn-primary" onClick={handleUnlike}>
                     <i className="bi bi-heart-fill"></i> Liked
                   </button>
-                  :
-                  <button
-                    className="btn btn-primary"
-                    onClick={handleLike}
-                  >
+                ) : (
+                  <button className="btn btn-primary" onClick={handleLike}>
                     <i className="bi bi-heart"></i> Like
-                  </button>}
+                  </button>
+                )}
               </div>
             )}
-           
           </div>
           <div className="movie-item-body d-flex flex-column gap-4 w-100">
             {/* Movie Info */}
@@ -147,7 +145,8 @@ function MovieItem() {
             </div>
 
             {/* Reviews */}
-            <div className="d-flex flex-column mt-4">
+            <MovieReviews />
+            {/* <div className="d-flex flex-column mt-4">
               <div>
                 <h1>Reviews</h1>
               </div>
@@ -210,7 +209,7 @@ function MovieItem() {
                   </li>
                 ))}
               </ul>
-            </div>
+            </div> */}
           </div>
         </div>
       )}
