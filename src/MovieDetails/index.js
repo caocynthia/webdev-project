@@ -21,36 +21,36 @@ function MovieItem() {
 
   const handleLike = async () => {
     try {
-      const updatedLikedMovies = 
-      user.likedMovies.push(movieId);
-      setUser({...user, likedMovies: updatedLikedMovies})
+      const updatedLikedMovies =
+        user.likedMovies.push(movieId);
+      setUser({ ...user, likedMovies: updatedLikedMovies })
       const response = await client.updateUser(user);
-  //     const response = await fetch(
-  //       `/api/users/${user._id}/likeMovie/${movieId}`,
-  //       {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //       }
-  //     );
+      //     const response = await fetch(
+      //       `/api/users/${user._id}/likeMovie/${movieId}`,
+      //       {
+      //         method: "POST",
+      //         headers: {
+      //           "Content-Type": "application/json",
+      //         },
+      //       }
+      //     );
 
-  //     if (response.ok) {
-  //       // Update likedMovies array in user state
-  //       const updatedLikedMovies = [...user.likedMovies, movieId];
-  //       setUser((prevUser) => ({
-  //         ...prevUser,
-  //         likedMovies: updatedLikedMovies,
-  //       }));
+      //     if (response.ok) {
+      //       // Update likedMovies array in user state
+      //       const updatedLikedMovies = [...user.likedMovies, movieId];
+      //       setUser((prevUser) => ({
+      //         ...prevUser,
+      //         likedMovies: updatedLikedMovies,
+      //       }));
 
-  //       setLiked(true);
-  //     } else {
-  //       console.error(
-  //         "Failed to like movie. Server returned:",
-  //         response.status
-  //       );
-  //       // Handle error accordingly
-  //     }
+      //       setLiked(true);
+      //     } else {
+      //       console.error(
+      //         "Failed to like movie. Server returned:",
+      //         response.status
+      //       );
+      //       // Handle error accordingly
+      //     }
     } catch (error) {
       console.error("Error liking movie:", error);
     }
@@ -58,41 +58,13 @@ function MovieItem() {
 
   const handleUnlike = async () => {
     try {
-      console.log(movieId);
-      const updatedLikedMovies = 
-      user.likedMovies.filter(
-        (id) => id !== movieId
-      );
-      setUser({...user, likedMovies: updatedLikedMovies})
-      const response = await client.updateUser(user);
-      //   {
-      //     method: "DELETE",
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //     },
-      //   }
-      // );
+      const updatedLikedMovies = user.likedMovies.filter((id) => id !== movieId);
+      const updatedUser = await client.updateUser({ ...user, likedMovies: updatedLikedMovies });
 
-      // if (response.ok) {
-      //   // Update likedMovies array in user state
-        // const updatedLikedMovies = user.likedMovies.filter(
-        //   (id) => id !== movieId
-        // );
-        // setUser((user) => ({
-        //   ...user,
-        //   likedMovies: updatedLikedMovies,
-        // }));
-        // console.log(user);
-
-      //   // setLiked(false);
-      //   liked = false;
-      // } else {
-      //   console.error(
-      //     "Failed to unlike movie. Server returned:",
-      //     response.status
-      //   );
-      //   // Handle error accordingly
-      // }
+      setUser(updatedUser);
+      console.log({ ...user, likedMovies: updatedLikedMovies });
+      console.log(user);
+     
     } catch (error) {
       console.error("Error unliking movie:", error);
     }
@@ -171,23 +143,23 @@ function MovieItem() {
               alt={"Poster of " + movie.title}
             ></img>
 
-            {user && (              
+            {user && (
               <div>
-                { user.likedMovies.includes(movieId) ? 
-                // { liked ? 
-                <button
-                  className="btn btn-primary"
-                onClick={handleUnlike}
-                >
-                  <i className="bi bi-heart-fill"></i>Liked
-                </button> 
-                :
-                <button
-                  className="btn btn-primary"
-                  onClick={handleLike}
-                >
-                  <i className="bi bi-heart"></i>Like
-                </button>}
+                {user.likedMovies.includes(movieId) ?
+                  // { liked ? 
+                  <button
+                    className="btn btn-primary"
+                    onClick={handleUnlike}
+                  >
+                    <i className="bi bi-heart-fill"></i> Liked
+                  </button>
+                  :
+                  <button
+                    className="btn btn-primary"
+                    onClick={handleLike}
+                  >
+                    <i className="bi bi-heart"></i> Like
+                  </button>}
               </div>
             )}
           </div>

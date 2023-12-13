@@ -48,7 +48,7 @@ export const deleteUser = async (user) => {
   return response.data;
 };
 
-export const unlikeMovie = async (user, movieId) => {
-  const response = await request.put(`${USERS_API}/${user._id}/unlikeMovie/${movieId}`);
-  return response.data;
-};
+// export const unlikeMovie = async (user, movieId) => {
+//   const response = await request.put(`${USERS_API}/${user._id}/unlikeMovie/${movieId}`);
+//   return response.data;
+// };
