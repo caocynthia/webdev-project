@@ -66,7 +66,7 @@ function SearchMovie() {
         
         {results.map((movie) => (
           <div key={movie.id} className="card">
-            <Link className="link" to={`/MovieItem/${movie.id}/${userId}`}>
+            <Link className="link" to={`/MovieItem/${movie.id}`}>
               <h1 className="searchMovieTitle">{movie.title}</h1>
               <div className="card-subheading">Popularity: {movie.popularity}</div>
               <div className="card-subheading">Release Date: {movie.release_date}</div>
