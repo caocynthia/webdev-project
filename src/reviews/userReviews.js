@@ -5,7 +5,7 @@ import { useSessionStorage } from "usehooks-ts";
 
 function UserReviews() {
   const [reviews, setReviews] = useState([]);
-  const [user, setUser] = useSessionStorage("currentUser");
+  const [user] = useSessionStorage("currentUser");
   const [currentReview, setCurrentReview] = useState();
   const [isEditing, setIsEditing] = useState("");
 

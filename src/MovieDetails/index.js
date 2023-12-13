@@ -41,30 +41,30 @@ function MovieItem() {
     }
   };
 
-  const options = {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMzE0NDQ1ZTJhMjFlMmRiYjUzYjY1NjQyNjE3NmY0NSIsInN1YiI6IjY1NzVlZGQ5N2EzYzUyMDE0ZTY5OWVlNCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ._1pdIxA6xMlm-YnaNEII4yImoCc0e2UB77IBohSNapk",
-    },
-  };
-
-  const fetchMovies = async () => {
-    const response = await fetch(
-      `https://api.themoviedb.org/3/movie/${movieId}?language=en-US`,
-      options
-    );
-    const data = await response.json();
-    setMovie(data);
-  };
-
   const [liked, setLiked] = useState(false);
 
   useEffect(() => {
+    const options = {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization:
+          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMzE0NDQ1ZTJhMjFlMmRiYjUzYjY1NjQyNjE3NmY0NSIsInN1YiI6IjY1NzVlZGQ5N2EzYzUyMDE0ZTY5OWVlNCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ._1pdIxA6xMlm-YnaNEII4yImoCc0e2UB77IBohSNapk",
+      },
+    };
+
+    const fetchMovies = async () => {
+      const response = await fetch(
+        `https://api.themoviedb.org/3/movie/${movieId}?language=en-US`,
+        options
+      );
+      const data = await response.json();
+      setMovie(data);
+    };
+
     setLiked(user.likedMovies.includes(movieId));
     fetchMovies();
-  }, []);
+  }, [movieId, user.likedMovies]);
 
   return (
     <div className="">

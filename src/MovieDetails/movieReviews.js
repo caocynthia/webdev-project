@@ -6,7 +6,7 @@ import { useSessionStorage } from "usehooks-ts";
 
 function MovieReviews() {
   const { movieId } = useParams();
-  const [user, setUser] = useSessionStorage("currentUser");
+  const [user] = useSessionStorage("currentUser");
 
   const [movie, setMovie] = useState([]);
 
