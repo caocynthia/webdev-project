@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useParams } from "react";
 import { Link } from "react-router-dom";
 
 function SearchMovie() {
@@ -6,28 +6,6 @@ function SearchMovie() {
   const [results, setResults] = useState([]);
   const [page, setPage] = useState(1);
   const [searched, setSearched] = useState(false);
-
-  const searchOptions = {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMzE0NDQ1ZTJhMjFlMmRiYjUzYjY1NjQyNjE3NmY0NSIsInN1YiI6IjY1NzVlZGQ5N2EzYzUyMDE0ZTY5OWVlNCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ._1pdIxA6xMlm-YnaNEII4yImoCc0e2UB77IBohSNapk",
-    },
-  };
-
-  const search = async () => {
-    fetch(
-      `https://api.themoviedb.org/3/search/movie?query=${searchTerm}&include_adult=false&language=en-US&page=${page}`,
-      searchOptions
-    )
-      .then((response) => response.json())
-      .then(setPage(1))
-      .then((response) => {
-        setResults(response.results);
-      })
-      .catch((err) => console.error(err));
-  };
 
   useEffect(() => {
     const options = {
@@ -86,9 +64,11 @@ function SearchMovie() {
         />
 
         {/* TODO: deal with case where nothing is searched but user presses search */}
-        <button className="btn btn-primary" onClick={search}>
-          Search
-        </button>
+        <Link to={`/Search/${searchTerm}`}>
+          <button className="btn btn-primary">
+            Search
+          </button>
+        </Link>
       </div>
       <div className="row g-0 pt-4 gap-2">
         {searched && (
