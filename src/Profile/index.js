@@ -97,13 +97,13 @@ function Profile() {
 
           <div className="d-flex flex-column gap-2 mt-4">
             <h5>Liked Movies</h5>
-            <div className="d-flex gap-2">
+            <div className="row g-0 gap-2">
               {user.likedMovies.length === 0 &&
                 "You haven't liked any movies yet!"}
               {movies.map((movie, index) => (
                 <div key={index} className="card">
                   <Link className="link" to={`/MovieItem/${movie.id}`}>
-                    <h1 className="searchMovieTitle">{movie.title}</h1>
+                    <h5 className="searchMovieTitle">{movie.title}</h5>
                     <div className="card-subheading mb-3">
                       Date: {movie.release_date}
                     </div>

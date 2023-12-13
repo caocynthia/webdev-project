@@ -66,15 +66,18 @@ function UserReviews() {
                 <h6>{review.movieTitle}</h6>
               </Link>
               <div className="d-flex gap-2">
-                <i
-                  className="bi bi-pencil fs-6 text-primary"
-                  onClick={() => editReview(review._id)}
-                ></i>
-
-                <i
-                  className="bi bi-trash fs-6 text-primary"
-                  onClick={() => deleteReview(review._id)}
-                ></i>
+                <div className="btn btn-primary">
+                  <i
+                    className="bi bi-pencil fs-6"
+                    onClick={() => editReview(review._id)}
+                  ></i>
+                </div>
+                <div className="btn btn-primary">
+                  <i
+                    className="bi bi-trash fs-6"
+                    onClick={() => deleteReview(review._id)}
+                  ></i>
+                </div>
               </div>
             </div>
 

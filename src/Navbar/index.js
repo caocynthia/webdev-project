@@ -27,8 +27,10 @@ function NavBar() {
 
   return (
     <div className="navbar">
-      <div className="d-flex gap-4">
-        <Link to={`/`}>Home</Link>
+      <div className="d-flex gap-4 align-items-center">
+        <Link to={`/`} className="site-name">
+          MyMovieList
+        </Link>
         <Link to={`/Search`}>Search</Link>
       </div>
       <div className="d-flex gap-4">
