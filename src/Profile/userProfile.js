@@ -4,26 +4,26 @@ import * as client from "../users/client";
 import { useEffect } from "react";
 
 function UserProfile() {
-  const { id } = useParams();
+  // const { id } = useParams();
 
   const [user, setUser] = useSessionStorage("currentUser");
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (id) {
-      const findUserById = async (id) => {
-        const user = await client.findUserById(id);
-        setUser(user);
-      };
-      findUserById(id);
-    } else {
-      const fetchAccount = async () => {
-        const account = await client.account();
-        setUser(account);
-      };
-      fetchAccount();
-    }
-  }, [id, setUser]);
+  // useEffect(() => {
+  //   if (id) {
+  //     const findUserById = async (id) => {
+  //       const user = await client.findUserById(id);
+  //       setUser(user);
+  //     };
+  //     findUserById(id);
+  //   } else {
+  //     const fetchAccount = async () => {
+  //       const account = await client.account();
+  //       setUser(account);
+  //     };
+  //     fetchAccount();
+  //   }
+  // }, [id, setUser]);
 
   return (
     <>
@@ -37,7 +37,7 @@ function UserProfile() {
 
       <div className="d-flex w-100">
         <button
-          onClick={() => navigate("/Profile/ProfileEdit/" + id)}
+          onClick={() => navigate("/Profile/ProfileEdit")}
           className="btn btn-primary"
         >
           Edit Profile

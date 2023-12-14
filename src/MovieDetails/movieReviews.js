@@ -124,14 +124,16 @@ function MovieReviews() {
               className="list-group-item card review-card row mt-2 gap-4 g-0"
             >
               <div className="d-flex justify-content-between">
-                <Link to={"/Profile/View/" + review.userId}>
+                <Link to={"/Profile/" + review.userId}>
                   <h5>{review.username}</h5>
                 </Link>
                 {user && user.role === "MODERATOR" && (
-                  <i
-                    className="bi bi-trash fs-6 text-primary"
+                  <div
+                    className="btn btn-primary"
                     onClick={() => deleteReview(review._id)}
-                  ></i>
+                  >
+                    <i className="bi bi-trash fs-6"></i>
+                  </div>
                 )}
               </div>
 

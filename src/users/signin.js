@@ -18,8 +18,7 @@ function Signin() {
     try {
       let currentUser = await client.signin(credentials);
       setUser(currentUser);
-      console.log(user);
-      navigate("/Profile/" + currentUser._id);
+      navigate("/");
     } catch (err) {
       setError("Wrong username or password, try again!");
       console.log(err);
@@ -28,7 +27,7 @@ function Signin() {
 
   return (
     <>
-      <div className="card w-50 d-flex flex-column col-4 gap-2">
+      <div className="card login d-flex flex-column col-4 gap-2">
         <h5>Sign in with an existing account!</h5>
         {error && <div>{error}</div>}
         <div>

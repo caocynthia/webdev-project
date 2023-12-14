@@ -28,7 +28,7 @@ function NavBar() {
   }, [id, setUser]);
 
   return (
-    <div className="sticky-top">
+    <div className="fixed-top">
       <div className="navbar flex-nowrap">
         <div className="d-flex gap-4 align-items-center">
           <Link to={`/`} className="site-name">
@@ -46,19 +46,33 @@ function NavBar() {
         </div>
         <div className="d-none d-sm-block">
           <div className="d-flex align-items-center gap-4">
-            {user && user.role === "MODERATOR" && <Link to={`/Users`}>Users</Link>}
-            {user && <Link to={`/Profile/${user._id}`}>
-              <div className="d-flex gap-2 align-items-center">
-                <i className="bi bi-person-circle fs-4"></i>
-                {user.username}
-              </div></Link>}
+            {user && user.role === "MODERATOR" && (
+              <Link to={`/Users`}>Users</Link>
+            )}
+            {user && (
+              <Link to={`/Profile`}>
+                <div className="d-flex gap-2 align-items-center">
+                  <i className="bi bi-person-circle fs-4"></i>
+                  {user.username}
+                </div>
+              </Link>
+            )}
             {!user && <Link to={`/Login`}>Sign in / Sign up</Link>}
           </div>
         </div>
         <div className="d-block d-sm-none">
-          {!isMenuOpen &&
-            <i className="bi bi-list fs-4" onClick={() => setIsMenuOpen(!isMenuOpen)}></i>}
-          {isMenuOpen && <i className="bi bi-x-lg fs-4" onClick={() => setIsMenuOpen(!isMenuOpen)}></i>}
+          {!isMenuOpen && (
+            <i
+              className="bi bi-list fs-4"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            ></i>
+          )}
+          {isMenuOpen && (
+            <i
+              className="bi bi-x-lg fs-4"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            ></i>
+          )}
         </div>
       </div>
       {isMenuOpen && <MobileNav />}

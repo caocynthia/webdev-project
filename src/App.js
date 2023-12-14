@@ -11,7 +11,6 @@ import RecentMovies from "./RecentMovies";
 import AnonProfileView from "./Profile/anonProfileView";
 import { useSessionStorage } from "usehooks-ts";
 
-
 function App() {
   const [user, setUser] = useSessionStorage("currentUser");
   return (
@@ -22,10 +21,13 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/Search" element={<SearchMovie />} />
           <Route path="/Search/:searching" element={<SearchMovie />} />
-          <Route path="/Profile/View/:id" element={<AnonProfileView />} />
+          <Route path="/Profile/:id" element={<AnonProfileView />} />
           <Route path="/Login" element={<LoginPage />} />
-          <Route path="/Profile/:id" element={user && (<Profile />)} />
-          <Route path="/Profile/ProfileEdit/:id" element={user && (<ProfileEdit />)} />
+          <Route path="/Profile" element={user && <Profile />} />
+          <Route
+            path="/Profile/ProfileEdit"
+            element={user && <ProfileEdit />}
+          />
           <Route path="/Users" element={<UserTable />} />
           <Route path="/MovieItem/:movieId" element={<MovieItem />} />
           <Route path="/RecentMovies" element={<RecentMovies />} />

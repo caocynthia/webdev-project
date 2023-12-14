@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import * as client from "../users/client";
 import UserProfile from "./userProfile";
 import AdminProfile from "./adminProfile";
@@ -7,12 +7,12 @@ import { useSessionStorage } from "usehooks-ts";
 import UserReviews from "../reviews/userReviews";
 
 function Profile() {
-  const { id } = useParams();
+  // const { id } = useParams();
   const [user, setUser] = useSessionStorage("currentUser");
   const [movies, setMovies] = useState([]);
 
   const navigate = useNavigate();
-  const [error, setError] = useState("");
+  // const [error, setError] = useState("");
 
   const signout = async () => {
     try {
@@ -24,27 +24,26 @@ function Profile() {
     }
   };
 
-  useEffect(() => {
-    try {
-      if (id) {
-        const findUserById = async (id) => {
-          const user = await client.findUserById(id);
-          setUser(user);
-        };
-        findUserById(id);
-      } else {
-        const fetchAccount = async () => {
-          const account = await client.account();
-          setUser(account);
-        };
-        fetchAccount();
-      }
-    }
-    catch (err) {
-      setError("Access denied.");
-      console.log(err);
-    }
-  }, [id, setUser]);
+  // useEffect(() => {
+  //   try {
+  //     if (id) {
+  //       const findUserById = async (id) => {
+  //         const user = await client.findUserById(id);
+  //         setUser(user);
+  //       };
+  //       findUserById(id);
+  //     } else {
+  //       const fetchAccount = async () => {
+  //         const account = await client.account();
+  //         setUser(account);
+  //       };
+  //       fetchAccount();
+  //     }
+  //   } catch (err) {
+  //     setError("Access denied.");
+  //     console.log(err);
+  //   }
+  // }, [id, setUser]);
 
   useEffect(() => {
     const options = {
@@ -67,15 +66,15 @@ function Profile() {
           const data = await response.json();
           listMovies.push(data);
         }
-      }
-      catch (err) {
+      } catch (err) {
         console.log(err);
       }
       setMovies(listMovies);
     };
 
-    try{fetchMovies();}
-    catch(err){
+    try {
+      fetchMovies();
+    } catch (err) {
       console.log(err);
     }
   }, [user.likedMovies]);
@@ -113,7 +112,9 @@ function Profile() {
           <div className="d-flex flex-column gap-2 mt-4">
             <h5>Liked Movies</h5>
             <div className="row g-0 gap-2">
-              {user && user.likedMovies && user.likedMovies.length === 0 &&
+              {user &&
+                user.likedMovies &&
+                user.likedMovies.length === 0 &&
                 "You haven't liked any movies yet!"}
               {movies.map((movie, index) => (
                 <div key={index} className="card">

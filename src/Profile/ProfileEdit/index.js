@@ -1,50 +1,53 @@
 import * as client from "../../users/client";
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useSessionStorage } from "usehooks-ts";
 
 function ProfileEdit() {
-  const { id } = useParams();
-  const [account, setAccount] = useState({
-    username: "",
-    password: "",
-    firstName: "",
-    lastName: "",
-    email: "",
-  });
+  // const { id } = useParams();
+  // const [account, setAccount] = useState({
+  //   username: "",
+  //   password: "",
+  //   firstName: "",
+  //   lastName: "",
+  //   email: "",
+  // });
+
+  const [user, setUser] = useSessionStorage("currentUser");
 
   const navigate = useNavigate();
-  const [error, setError] = useState("");
+  // const [error, setError] = useState("");
 
-  useEffect(() => {
-    try {if (id) {
-      const findUserById = async (id) => {
-        const user = await client.findUserById(id);
-        setAccount(user);
-      };
-      findUserById(id);
-    } else {
-      const fetchAccount = async () => {
-        const account = await client.account();
-        setAccount(account);
-      };
-      fetchAccount();
-    }}
-    catch(err) {
-      setError("Access denied.");
-      console.log(err);
-    }
-
-  }, [id]);
+  // useEffect(() => {
+  //   try {
+  //     if (id) {
+  //       const findUserById = async (id) => {
+  //         const user = await client.findUserById(id);
+  //         setAccount(user);
+  //       };
+  //       findUserById(id);
+  //     } else {
+  //       const fetchAccount = async () => {
+  //         const account = await client.account();
+  //         setAccount(account);
+  //       };
+  //       fetchAccount();
+  //     }
+  //   } catch (err) {
+  //     setError("Access denied.");
+  //     console.log(err);
+  //   }
+  // }, [id]);
 
   const save = async () => {
-    await client.updateUser(account);
-    navigate("/Profile/" + id);
+    await client.updateUser(user);
+    navigate("/Profile");
   };
 
   return (
     <div className="col col-lg-6">
       <h1>Profile Edit</h1>
-      {account && (
+      {user && (
         <div className="d-flex flex-column mt-4 gap-4">
           <div className="d-flex flex-column mt-4 gap-4">
             <div className="d-flex flex-column flex-md-row gap-2 mb-4">
@@ -55,9 +58,9 @@ function ProfileEdit() {
                 <input
                   className="form-control"
                   placeholder="Username"
-                  value={account.username}
+                  value={user.username}
                   onChange={(e) =>
-                    setAccount({ ...account, username: e.target.value })
+                    setUser({ ...user, username: e.target.value })
                   }
                 />
               </div>
@@ -69,9 +72,9 @@ function ProfileEdit() {
                 <input
                   className="form-control"
                   placeholder="Password"
-                  value={account.password}
+                  value={user.password}
                   onChange={(e) =>
-                    setAccount({ ...account, password: e.target.value })
+                    setUser({ ...user, password: e.target.value })
                   }
                 />
               </div>
@@ -85,9 +88,9 @@ function ProfileEdit() {
                 <input
                   className="form-control"
                   placeholder="First Name"
-                  value={account.firstName}
+                  value={user.firstName}
                   onChange={(e) =>
-                    setAccount({ ...account, firstName: e.target.value })
+                    setUser({ ...user, firstName: e.target.value })
                   }
                 />
               </div>
@@ -98,9 +101,9 @@ function ProfileEdit() {
                 <input
                   className="form-control"
                   placeholder="Last Name"
-                  value={account.lastName}
+                  value={user.lastName}
                   onChange={(e) =>
-                    setAccount({ ...account, lastName: e.target.value })
+                    setUser({ ...user, lastName: e.target.value })
                   }
                 />
               </div>
@@ -113,10 +116,8 @@ function ProfileEdit() {
               <input
                 className="form-control"
                 placeholder="Email Address"
-                value={account.email}
-                onChange={(e) =>
-                  setAccount({ ...account, email: e.target.value })
-                }
+                value={user.email}
+                onChange={(e) => setUser({ ...user, email: e.target.value })}
               />
             </div>
           </div>
@@ -126,7 +127,7 @@ function ProfileEdit() {
             </button>
             <button
               className="btn btn-danger"
-              onClick={() => navigate("/Profile/" + id)}
+              onClick={() => navigate("/Profile")}
             >
               Cancel
             </button>

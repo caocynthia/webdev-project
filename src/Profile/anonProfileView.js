@@ -2,19 +2,22 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import * as reviewsClient from "../reviews/client";
 import * as usersClient from "../users/client";
+import { useSessionStorage } from "usehooks-ts";
+import UserReviews from "../reviews/userReviews";
 
 function AnonProfileView() {
   const { id } = useParams();
   const [account, setAccount] = useState();
 
   const [reviews, setReviews] = useState([]);
+  const [user, setUser] = useSessionStorage("currentUser");
 
   useEffect(() => {
-    // const findUser = async (id) => {
-    //   const user = await usersClient.findUserById(id);
-    //   setAccount(user);
-    // };
-    // findUser(id);
+    const findUser = async (id) => {
+      const user = await usersClient.findUserById(id);
+      setAccount(user);
+    };
+    findUser(id);
 
     const findReviewsByUser = async (id) => {
       const user = await usersClient.findUserById(id);
@@ -28,6 +31,15 @@ function AnonProfileView() {
     };
     findReviewsByUser(id);
   }, [id]);
+
+  const deleteReview = async (reviewId) => {
+    try {
+      await reviewsClient.deleteReview(reviewId);
+      setReviews(reviews.filter((r) => r._id !== reviewId));
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <>
@@ -62,6 +74,14 @@ function AnonProfileView() {
                       <Link to={"/MovieItem/" + review.movieId}>
                         <h6>{review.movieTitle}</h6>
                       </Link>
+                      {user && user.role === "MODERATOR" && (
+                        <div
+                          className="btn btn-primary"
+                          onClick={() => deleteReview(review._id)}
+                        >
+                          <i className="bi bi-trash fs-6"></i>
+                        </div>
+                      )}
                     </div>
 
                     <div className="mt-3">{review.review}</div>
