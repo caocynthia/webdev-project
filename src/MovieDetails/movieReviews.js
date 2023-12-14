@@ -40,7 +40,7 @@ function MovieReviews() {
       setMovieReviews(filteredReviews);
     };
     fetchMovieReviews();
-  }, [movieId, movie]);
+  }, []);
 
   const [isEditing, setIsEditing] = useState(false);
 
