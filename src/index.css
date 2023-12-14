@@ -99,6 +99,10 @@ a {
   text-decoration: none;
 }
 
+.hover:hover {
+  text-decoration: #0d6efd underline;
+}
+
 .card {
   width: 250px;
   background-color: rgb(31, 31, 31);

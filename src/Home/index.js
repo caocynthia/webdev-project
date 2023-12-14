@@ -125,7 +125,7 @@ function Home() {
         </div>
       </div>
       <div className="section-color col">
-        <Link className="link" to="/RecentMovies">
+        <Link className="link hover" to="/RecentMovies">
           <h1 className="mb-4">Recent Movies →</h1>
         </Link>
         <div className="row g-0 gap-2">
