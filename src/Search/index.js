@@ -76,18 +76,19 @@ function SearchMovie() {
 
   return (
     <div>
-      <h1>Movie Search</h1>
+      <h1>Search Movies</h1>
       <div className="d-flex align-items-center gap-2">
         <input
           type="text"
           value={searchTerm}
           className="form-control"
+          placeholder="Search for a movie"
           onChange={(e) => setSearchTerm(e.target.value)}
         />
 
         {/* TODO: deal with case where nothing is searched but user presses search */}
-        <button className="btn btn-primary" onClick={search}>
-          Search
+        <button className="btn btn-primary d-flex gap-2" onClick={search}>
+        Search<i className="bi bi-search fs-6"></i>
         </button>
       </div>
       <div className="row g-0 pt-4 gap-2">

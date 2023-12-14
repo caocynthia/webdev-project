@@ -58,7 +58,7 @@ function UserTable() {
     <div>
       <h3 className="mb-4">User List</h3>
 
-      <table className="table">
+      <table className="table align-middle">
         <thead>
           <tr>
             <th>Username</th>
@@ -87,6 +87,7 @@ function UserTable() {
                 onChange={(e) =>
                   setUser({ ...user, firstName: e.target.value })
                 }
+                placeholder="First Name"
               />
             </td>
             <td>
@@ -94,11 +95,12 @@ function UserTable() {
                 className="form-control"
                 value={user.lastName}
                 onChange={(e) => setUser({ ...user, lastName: e.target.value })}
+                placeholder="Last Name"
               />
             </td>
             <td>
               <select
-                className="form-control"
+                className="form-select"
                 value={user.role}
                 onChange={(e) => setUser({ ...user, role: e.target.value })}
               >
@@ -106,12 +108,10 @@ function UserTable() {
                 <option value="MODERATOR">Moderator</option>
               </select>
             </td>
-            <td className="d-flex align-items-center">
-              <div className="d-flex flex-column align-items-center">
+            <td>
                 <button onClick={updateUser} className="btn btn-primary">
                   Update
                 </button>
-              </div>
             </td>
           </tr>
         </thead>
@@ -128,15 +128,19 @@ function UserTable() {
               <td>{user.role}</td>
               <td>
                 <div className="d-flex w-100 justify-content-center gap-3">
-                  <i
-                    className="bi bi-pencil fs-6 text-primary"
-                    onClick={() => selectUser(user)}
-                  ></i>
+                  <button className="btn btn-primary">
+                    <i
+                      className="bi bi-pencil fs-6"
+                      onClick={() => selectUser(user)}
+                    ></i>
+                  </button>
 
-                  <i
-                    className="bi bi-trash fs-6 text-primary"
-                    onClick={() => deleteUser(user)}
-                  ></i>
+                  <button className="btn btn-danger">
+                    <i
+                      className="bi bi-trash fs-6"
+                      onClick={() => deleteUser(user)}
+                    ></i>
+                  </button>
                 </div>
               </td>
             </tr>

@@ -28,10 +28,11 @@ function Signup() {
 
   return (
     <div className="card w-50 d-flex flex-column col-4 gap-2">
-      <h5>Sign up now to post movie reviews!</h5>
+      <h5>Create an account to post movie reviews!</h5>
       {error && <div>{error}</div>}
       <input
         className="form-control"
+        placeholder="Create a username"
         value={credentials.username}
         onChange={(e) =>
           setCredentials({
@@ -42,6 +43,7 @@ function Signup() {
       />
       <input
         className="form-control"
+        placeholder="Create a password"
         value={credentials.password}
         onChange={(e) =>
           setCredentials({
@@ -52,7 +54,7 @@ function Signup() {
       />
       <div>
         <button className="btn btn-primary" onClick={signup}>
-          Sign up
+          Create Account
         </button>
       </div>
     </div>

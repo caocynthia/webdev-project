@@ -55,7 +55,7 @@ function RecentMovies() {
       <div className="d-flex flex-column gap-4">
         <div className="section-color col">
           <h1 className="mb-4">Recent Movies</h1>
-          <div className="d-flex gap-5 justify-content-center">
+          <div className="d-flex gap-5 justify-content-center mb-4">
             {pageNumbers()}
           </div>
           <div className="row g-0 gap-2">

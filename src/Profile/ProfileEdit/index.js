@@ -13,9 +13,10 @@ function ProfileEdit() {
   });
 
   const navigate = useNavigate();
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    if (id) {
+    try {if (id) {
       const findUserById = async (id) => {
         const user = await client.findUserById(id);
         setAccount(user);
@@ -27,7 +28,12 @@ function ProfileEdit() {
         setAccount(account);
       };
       fetchAccount();
+    }}
+    catch(err) {
+      setError("Access denied.");
+      console.log(err);
     }
+
   }, [id]);
 
   const save = async () => {
@@ -48,6 +54,7 @@ function ProfileEdit() {
                 </label>
                 <input
                   className="form-control"
+                  placeholder="Username"
                   value={account.username}
                   onChange={(e) =>
                     setAccount({ ...account, username: e.target.value })
@@ -61,6 +68,7 @@ function ProfileEdit() {
                 </label>
                 <input
                   className="form-control"
+                  placeholder="Password"
                   value={account.password}
                   onChange={(e) =>
                     setAccount({ ...account, password: e.target.value })
@@ -76,6 +84,7 @@ function ProfileEdit() {
                 </label>
                 <input
                   className="form-control"
+                  placeholder="First Name"
                   value={account.firstName}
                   onChange={(e) =>
                     setAccount({ ...account, firstName: e.target.value })
@@ -88,6 +97,7 @@ function ProfileEdit() {
                 </label>
                 <input
                   className="form-control"
+                  placeholder="Last Name"
                   value={account.lastName}
                   onChange={(e) =>
                     setAccount({ ...account, lastName: e.target.value })
@@ -102,6 +112,7 @@ function ProfileEdit() {
               </label>
               <input
                 className="form-control"
+                placeholder="Email Address"
                 value={account.email}
                 onChange={(e) =>
                   setAccount({ ...account, email: e.target.value })

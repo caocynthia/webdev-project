@@ -34,6 +34,7 @@ function Signin() {
         <div>
           <input
             className="form-control"
+            placeholder="Username"
             value={credentials.username}
             onChange={(e) =>
               setCredentials({ ...credentials, username: e.target.value })
@@ -43,6 +44,7 @@ function Signin() {
         <div>
           <input
             className="form-control"
+            placeholder="Password"
             value={credentials.password}
             onChange={(e) =>
               setCredentials({ ...credentials, password: e.target.value })

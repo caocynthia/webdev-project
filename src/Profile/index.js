@@ -12,6 +12,7 @@ function Profile() {
   const [movies, setMovies] = useState([]);
 
   const navigate = useNavigate();
+  const [error, setError] = useState("");
 
   const signout = async () => {
     try {
@@ -24,18 +25,24 @@ function Profile() {
   };
 
   useEffect(() => {
-    if (id) {
-      const findUserById = async (id) => {
-        const user = await client.findUserById(id);
-        setUser(user);
-      };
-      findUserById(id);
-    } else {
-      const fetchAccount = async () => {
-        const account = await client.account();
-        setUser(account);
-      };
-      fetchAccount();
+    try {
+      if (id) {
+        const findUserById = async (id) => {
+          const user = await client.findUserById(id);
+          setUser(user);
+        };
+        findUserById(id);
+      } else {
+        const fetchAccount = async () => {
+          const account = await client.account();
+          setUser(account);
+        };
+        fetchAccount();
+      }
+    }
+    catch (err) {
+      setError("Access denied.");
+      console.log(err);
     }
   }, [id, setUser]);
 
@@ -51,18 +58,26 @@ function Profile() {
 
     const fetchMovies = async () => {
       let listMovies = [];
-      for (let i = 0; i < user.likedMovies.length; i++) {
-        const response = await fetch(
-          `https://api.themoviedb.org/3/movie/${user.likedMovies[i]}?language=en-US`,
-          options
-        );
-        const data = await response.json();
-        listMovies.push(data);
+      try {
+        for (let i = 0; i < user.likedMovies.length; i++) {
+          const response = await fetch(
+            `https://api.themoviedb.org/3/movie/${user.likedMovies[i]}?language=en-US`,
+            options
+          );
+          const data = await response.json();
+          listMovies.push(data);
+        }
+      }
+      catch (err) {
+        console.log(err);
       }
       setMovies(listMovies);
     };
 
-    fetchMovies();
+    try{fetchMovies();}
+    catch(err){
+      console.log(err);
+    }
   }, [user.likedMovies]);
 
   return (
@@ -98,7 +113,7 @@ function Profile() {
           <div className="d-flex flex-column gap-2 mt-4">
             <h5>Liked Movies</h5>
             <div className="row g-0 gap-2">
-              {user.likedMovies.length === 0 &&
+              {user && user.likedMovies && user.likedMovies.length === 0 &&
                 "You haven't liked any movies yet!"}
               {movies.map((movie, index) => (
                 <div key={index} className="card">
