@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import * as client from "../users/client";
 import { useSessionStorage } from "usehooks-ts";
@@ -73,14 +73,10 @@ function MovieItem() {
 
   return (
     <div className="">
-      <div className="mb-4">
-        <div
-          className="text-decoration-underline text-primary"
-          onClick={() => navigate(-1)}
-        >
-          ← Back
-        </div>
-      </div>
+      <Link className="mb-4 d-flex gap-2 link hover" onClick={() => navigate(-1)}>
+        <div className="text-primary">← </div>
+        Back
+      </Link>
 
       {movie && (
         <div className="d-flex flex-column flex-md-row gap-4 w-100">
