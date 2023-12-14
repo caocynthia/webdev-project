@@ -188,3 +188,7 @@ td, th {
 .list-group-item {
   border-top-width: 1px !important;
 }
+
+.bi-trash:hover {
+  cursor: pointer;
+}

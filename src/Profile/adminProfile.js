@@ -4,26 +4,26 @@ import { useEffect } from "react";
 import { useSessionStorage } from "usehooks-ts";
 
 function AdminProfile() {
-  const { id } = useParams();
+  // const { id } = useParams();
 
   const [user, setUser] = useSessionStorage("currentUser");
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (id) {
-      const findUserById = async (id) => {
-        const user = await client.findUserById(id);
-        setUser(user);
-      };
-      findUserById(id);
-    } else {
-      const fetchAccount = async () => {
-        const account = await client.account();
-        setUser(account);
-      };
-      fetchAccount();
-    }
-  }, [id, setUser]);
+  // useEffect(() => {
+  //   if (id) {
+  //     const findUserById = async (id) => {
+  //       const user = await client.findUserById(id);
+  //       setUser(user);
+  //     };
+  //     findUserById(id);
+  //   } else {
+  //     const fetchAccount = async () => {
+  //       const account = await client.account();
+  //       setUser(account);
+  //     };
+  //     fetchAccount();
+  //   }
+  // }, [id, setUser]);
 
   return (
     <>
@@ -37,7 +37,7 @@ function AdminProfile() {
       <p>{user.role}</p>
       <div className="d-flex flex-column w-100 gap-4 mb-4">
         <button
-          onClick={() => navigate("/Profile/ProfileEdit/" + id)}
+          onClick={() => navigate("/Profile/ProfileEdit")}
           className="btn btn-primary w-100"
         >
           Edit Profile

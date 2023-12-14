@@ -19,7 +19,8 @@ function Signin() {
       let currentUser = await client.signin(credentials);
       setUser(currentUser);
       console.log(user);
-      navigate("/Profile/" + currentUser._id);
+      navigate("/");
+      // navigate("/Profile/" + currentUser._id);
     } catch (err) {
       setError("Wrong username or password, try again!");
       console.log(err);

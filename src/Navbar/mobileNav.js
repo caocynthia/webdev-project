@@ -6,7 +6,7 @@ function MobileNav() {
   return (
     <ul className="px-5 py-3 col-md-3 col-xl-2 d-flex flex-column gap-3 mobile-nav d-block d-sm-none">
       {user && (
-        <Link to={`/Profile/${user._id}`} className="w-100">
+        <Link to={`/Profile`} className="w-100">
           <div className="d-flex gap-2 align-items-center">
             <i className="bi bi-person-circle fs-4"></i>
             {user.username}

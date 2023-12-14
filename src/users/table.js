@@ -19,14 +19,6 @@ function UserTable() {
     lastName: "",
     role: "USER",
   });
-  //   const createUser = async () => {
-  //     try {
-  //       const newUser = await client.createUser(user);
-  //       setUsers([newUser, ...users]);
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   };
 
   const selectUser = async (user) => {
     try {
@@ -109,9 +101,9 @@ function UserTable() {
               </select>
             </td>
             <td>
-                <button onClick={updateUser} className="btn btn-primary">
-                  Update
-                </button>
+              <button onClick={updateUser} className="btn btn-primary">
+                Update
+              </button>
             </td>
           </tr>
         </thead>
@@ -119,27 +111,25 @@ function UserTable() {
           {users.map((user) => (
             <tr key={user._id}>
               <td>
-                <Link to={`/Kanbas/Account/account/${user._id}`}>
-                  {user.username}
-                </Link>
+                <Link to={`/Profile/${user._id}`}>{user.username}</Link>
               </td>
               <td>{user.firstName}</td>
               <td>{user.lastName}</td>
               <td>{user.role}</td>
               <td>
                 <div className="d-flex w-100 justify-content-center gap-3">
-                  <button className="btn btn-primary">
-                    <i
-                      className="bi bi-pencil fs-6"
-                      onClick={() => selectUser(user)}
-                    ></i>
+                  <button
+                    className="btn btn-primary"
+                    onClick={() => selectUser(user)}
+                  >
+                    <i className="bi bi-pencil fs-6"></i>
                   </button>
 
-                  <button className="btn btn-danger">
-                    <i
-                      className="bi bi-trash fs-6"
-                      onClick={() => deleteUser(user)}
-                    ></i>
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => deleteUser(user)}
+                  >
+                    <i className="bi bi-trash fs-6"></i>
                   </button>
                 </div>
               </td>
