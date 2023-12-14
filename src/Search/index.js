@@ -67,7 +67,7 @@ function SearchMovie() {
         {/* TODO: deal with case where nothing is searched but user presses search */}
         <Link to={`/Search/${searchTerm}`}>
           <button className="btn btn-primary">
-            Search
+            <i className="bi bi-search fs-6"></i>
           </button>
         </Link>
 
