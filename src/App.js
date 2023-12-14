@@ -21,6 +21,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/Search" element={<SearchMovie />} />
+          <Route path="/Search/:searching" element={<SearchMovie />} />
           <Route path="/Profile/View/:id" element={<AnonProfileView />} />
           <Route path="/Login" element={<LoginPage />} />
           <Route path="/Profile/:id" element={user && (<Profile />)} />
