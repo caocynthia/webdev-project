@@ -83,7 +83,7 @@ function Home() {
     <div className="d-flex flex-column gap-4">
       {user && (
         <div className="d-flex flex-column gap-2 mb-4">
-          <h1>Recently Liked Movies</h1>
+          <h1>My Recently Liked Movies</h1>
           <div className="row g-0 gap-2">
             {user.likedMovies.length === 0 &&
               "You haven't liked any movies yet!"}
@@ -126,7 +126,7 @@ function Home() {
       </div>
       <div className="section-color col">
         <Link className="link" to="/RecentMovies">
-          <h1 className="mb-4">Recent Movies</h1>
+          <h1 className="mb-4">Recent Movies →</h1>
         </Link>
         <div className="row g-0 gap-2">
           {recentMovies.slice(0, 10).map((movie, index) => (

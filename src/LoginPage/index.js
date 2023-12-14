@@ -6,6 +6,7 @@ function LoginPage() {
     <>
       <div className="d-flex flex-column align-items-center gap-4">
         <Signin />
+        <h5>OR</h5>
         <Signup />
       </div>
     </>
