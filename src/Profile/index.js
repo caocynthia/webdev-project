@@ -7,12 +7,10 @@ import { useSessionStorage } from "usehooks-ts";
 import UserReviews from "../reviews/userReviews";
 
 function Profile() {
-  // const { id } = useParams();
   const [user, setUser] = useSessionStorage("currentUser");
   const [movies, setMovies] = useState([]);
 
   const navigate = useNavigate();
-  // const [error, setError] = useState("");
 
   const signout = async () => {
     try {
@@ -23,27 +21,6 @@ function Profile() {
       console.log(err);
     }
   };
-
-  // useEffect(() => {
-  //   try {
-  //     if (id) {
-  //       const findUserById = async (id) => {
-  //         const user = await client.findUserById(id);
-  //         setUser(user);
-  //       };
-  //       findUserById(id);
-  //     } else {
-  //       const fetchAccount = async () => {
-  //         const account = await client.account();
-  //         setUser(account);
-  //       };
-  //       fetchAccount();
-  //     }
-  //   } catch (err) {
-  //     setError("Access denied.");
-  //     console.log(err);
-  //   }
-  // }, [id, setUser]);
 
   useEffect(() => {
     const options = {

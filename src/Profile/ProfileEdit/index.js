@@ -1,43 +1,11 @@
 import * as client from "../../users/client";
-import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useSessionStorage } from "usehooks-ts";
 
 function ProfileEdit() {
-  // const { id } = useParams();
-  // const [account, setAccount] = useState({
-  //   username: "",
-  //   password: "",
-  //   firstName: "",
-  //   lastName: "",
-  //   email: "",
-  // });
-
   const [user, setUser] = useSessionStorage("currentUser");
 
   const navigate = useNavigate();
-  // const [error, setError] = useState("");
-
-  // useEffect(() => {
-  //   try {
-  //     if (id) {
-  //       const findUserById = async (id) => {
-  //         const user = await client.findUserById(id);
-  //         setAccount(user);
-  //       };
-  //       findUserById(id);
-  //     } else {
-  //       const fetchAccount = async () => {
-  //         const account = await client.account();
-  //         setAccount(account);
-  //       };
-  //       fetchAccount();
-  //     }
-  //   } catch (err) {
-  //     setError("Access denied.");
-  //     console.log(err);
-  //   }
-  // }, [id]);
 
   const save = async () => {
     await client.updateUser(user);
