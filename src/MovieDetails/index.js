@@ -17,7 +17,6 @@ function MovieItem() {
       const likedMovies = user.likedMovies;
       likedMovies.push(movieId);
       setUser({ ...user, likedMovies: likedMovies });
-      setLiked(true);
       await client.updateUser(user);
     } catch (error) {
       console.error("Error liking movie:", error);
@@ -35,13 +34,10 @@ function MovieItem() {
         ...user,
         likedMovies: updatedLikedMovies,
       });
-      setLiked(false);
     } catch (error) {
       console.error("Error unliking movie:", error);
     }
   };
-
-  const [liked, setLiked] = useState(false);
 
   useEffect(() => {
     const options = {
@@ -62,18 +58,15 @@ function MovieItem() {
       setMovie(data);
     };
 
-    try {
-      user.likedMovies.includes(movieId);
-    } catch (err) {
-      console.log(err);
-    }
-
     fetchMovies();
   }, [movieId]);
 
   return (
     <div className="">
-      <Link className="mb-4 d-flex gap-2 link hover" onClick={() => navigate(-1)}>
+      <Link
+        className="mb-4 d-flex gap-2 link hover"
+        onClick={() => navigate(-1)}
+      >
         <div className="text-primary">← </div>
         Back
       </Link>
@@ -89,8 +82,7 @@ function MovieItem() {
 
             {user && (
               <div>
-                {liked ? (
-                  // { liked ?
+                {user.likedMovies.includes(movieId) ? (
                   <button className="btn btn-primary" onClick={handleUnlike}>
                     <i className="bi bi-heart-fill"></i> Liked
                   </button>

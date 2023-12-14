@@ -3,7 +3,6 @@ import { useParams, Link } from "react-router-dom";
 import * as reviewsClient from "../reviews/client";
 import * as usersClient from "../users/client";
 import { useSessionStorage } from "usehooks-ts";
-import UserReviews from "../reviews/userReviews";
 
 function AnonProfileView() {
   const { id } = useParams();
