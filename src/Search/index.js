@@ -54,7 +54,7 @@ function SearchMovie() {
 
   return (
     <div>
-      <h1>Search Movies</h1>
+      <h1 className="mb-4">Search Movies</h1>
       <div className="d-flex align-items-center gap-2">
         <input
           type="text"
