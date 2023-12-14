@@ -17,7 +17,7 @@ function App() {
   return (
     <>
       <NavBar />
-      <div className="app page-padding">
+      <div className="app page-padding mt-5">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/Search" element={<SearchMovie />} />
