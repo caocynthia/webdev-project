@@ -50,7 +50,7 @@ function UserTable() {
     <div>
       <h3 className="mb-4">User List</h3>
 
-      <table className="table align-middle">
+      <table className="table table-responsive align-middle">
         <thead>
           <tr>
             <th>Username</th>

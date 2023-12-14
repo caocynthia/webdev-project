@@ -19,7 +19,6 @@ function Signup() {
     try {
       let currentUser = await client.signup(credentials);
       setUser(currentUser);
-      console.log(user);
       navigate("/Profile/" + currentUser._id);
     } catch (err) {
       setError("This username already exists, try again!");
@@ -27,7 +26,7 @@ function Signup() {
   };
 
   return (
-    <div className="card w-50 d-flex flex-column col-4 gap-2">
+    <div className="card login d-flex flex-column col-4 gap-2">
       <h5>Create an account to post movie reviews!</h5>
       {error && <div>{error}</div>}
       <input

@@ -59,10 +59,10 @@ a {
 
 .page-padding {
   @media (max-width: 600px) {
-    padding: 20px 20px 40px 20px;
+    padding: 100px 20px 40px 20px;
   }
 
-  padding: 40px 64px 40px 64px;
+  padding: 100px 64px 40px 64px;
 }
 
 .app {
@@ -191,4 +191,11 @@ td, th {
 
 .bi-trash:hover {
   cursor: pointer;
+}
+
+.login {
+  @media (max-width: 800px) {
+      width: 100%;
+    }
+  width: 50%;
 }

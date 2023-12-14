@@ -46,7 +46,6 @@ function Profile() {
   // }, [id, setUser]);
 
   useEffect(() => {
-    console.log(user);
     const options = {
       method: "GET",
       headers: {
