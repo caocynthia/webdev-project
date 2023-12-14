@@ -94,7 +94,8 @@ function MovieReviews() {
             {isEditing === true && (
               <div className="d-flex flex-column justify-content-right mb-4 gap-2">
                 <textarea
-                  className="form-control" placeholder="Type your review..."
+                  className="form-control"
+                  placeholder="Type your review..."
                   value={newReview.review}
                   onChange={(e) =>
                     setNewReview({

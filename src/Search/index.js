@@ -1,4 +1,4 @@
-import { useEffect, useState, useParams } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 function SearchMovie() {
@@ -7,27 +7,24 @@ function SearchMovie() {
   const [page, setPage] = useState(1);
   const [searched, setSearched] = useState(false);
 
-  useEffect(() => {
-    const options = {
-      method: "GET",
-      headers: {
-        accept: "application/json",
-        Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMzE0NDQ1ZTJhMjFlMmRiYjUzYjY1NjQyNjE3NmY0NSIsInN1YiI6IjY1NzVlZGQ5N2EzYzUyMDE0ZTY5OWVlNCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ._1pdIxA6xMlm-YnaNEII4yImoCc0e2UB77IBohSNapk",
-      },
-    };
+  const options = {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization:
+        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMzE0NDQ1ZTJhMjFlMmRiYjUzYjY1NjQyNjE3NmY0NSIsInN1YiI6IjY1NzVlZGQ5N2EzYzUyMDE0ZTY5OWVlNCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ._1pdIxA6xMlm-YnaNEII4yImoCc0e2UB77IBohSNapk",
+    },
+  };
 
-    fetch(
+  const fetchSearchedMovies = async () => {
+    const response = await fetch(
       `https://api.themoviedb.org/3/search/movie?query=${searchTerm}&include_adult=false&language=en-US&page=${page}`,
       options
-    )
-      .then((response) => response.json())
-      .then((response) => {
-        setResults(response.results);
-      })
-      .then(setSearched(true))
-      .catch((err) => console.error(err));
-  }, [page, searchTerm]);
+    );
+    const data = await response.json();
+    setResults(data.results);
+    setSearched(true);
+  };
 
   const pageNumbers = () => {
     const pages = [];
@@ -66,16 +63,15 @@ function SearchMovie() {
 
         {/* TODO: deal with case where nothing is searched but user presses search */}
         <Link to={`/Search/${searchTerm}`}>
-          <button className="btn btn-primary">
+          <button className="btn btn-primary" onClick={fetchSearchedMovies}>
             <i className="bi bi-search fs-6"></i>
           </button>
         </Link>
-
       </div>
       <div className="row g-0 pt-4 gap-2">
         {searched && (
-          <div className="d-flex gap-5 justify-content-center">
-            {pageNumbers()}{" "}
+          <div className="d-flex gap-2 justify-content-center pb-4">
+            {pageNumbers()}
           </div>
         )}
 
