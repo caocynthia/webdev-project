@@ -28,7 +28,7 @@ function NavBar() {
   }, [id, setUser]);
 
   return (
-    <div className="fixed-top">
+    <div className="sticky-top">
       <div className="navbar flex-nowrap">
         <div className="d-flex gap-4 align-items-center">
           <Link to={`/`} className="site-name">
