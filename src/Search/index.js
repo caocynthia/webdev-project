@@ -60,6 +60,7 @@ function SearchMovie() {
   const handleEnter = () => {
     navigate(`/Search/${searchTerm}`);
     fetchSearchedMovies(page);
+    setPage(1);
   };
 
   return (
@@ -84,7 +85,10 @@ function SearchMovie() {
         <Link to={`/Search/${searchTerm}`}>
           <button
             className="btn btn-primary"
-            onClick={() => fetchSearchedMovies(page)}
+            onClick={() => {
+              fetchSearchedMovies(page);
+              setPage(1);
+            }}
           >
             <i className="bi bi-search fs-6"></i>
           </button>
