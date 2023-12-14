@@ -184,3 +184,7 @@ td, th {
   font-weight: bold;
   font-size: 20px;
 }
+
+.list-group-item {
+  border-top-width: 1px !important;
+}
